@@ -9,6 +9,8 @@ public class Main {
 		FileManager.loadStudentFile();
 		FileManager.loadTimetableFile();
 		
+		Menu menu = new Menu();
+		menu.selectMenu();
 		
 		
 	}

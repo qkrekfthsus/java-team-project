@@ -173,7 +173,7 @@ public class StudentManagement {
 	}
 
 	public static boolean isName(String str) {
-		return Pattern.matches("^[a-zA-Z]|[¤¡-¤¾°¡-ÆR]*$", str);
+		return Pattern.matches("^[a-zA-Z]*$|^[¤¡-¤¾°¡-ÆR]*$", str);
 	}
 
 	public static boolean isMajor(String str) {
@@ -181,7 +181,7 @@ public class StudentManagement {
 	}
 
 	public static boolean isMob(String str) {
-		return Pattern.matches("^\\d{3}\\d{3,4}\\d{4}$", str);
+		return Pattern.matches("^\\d{3}-\\d{3,4}-\\d{4}$", str);
 	}
 
 ///////////////////////////////////////////////////////////////////////////////////

@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public class StudentManagement {
 
 	static Scanner sc = new Scanner(System.in);
-	static ArrayList<Student> studentArray = new ArrayList<>();
+	//static ArrayList<Student> studentArray = new ArrayList<>();
 	static String[] studentInfo = new String[6];
 
 	// 이후 작업 여부 묻는 함수
@@ -15,7 +15,6 @@ public class StudentManagement {
 
 		System.out.println("==============================================");
 		System.out.println("학생 등록이 완료되었습니다. 계속 작업하시겠습니까? (y/n)");
-		System.out.println("==============================================");
 
 		if (sc.nextLine().equals("y")) {
 			// 학생 등록 함수 호출
@@ -23,10 +22,13 @@ public class StudentManagement {
 		} else {
 			// 메인메뉴로 돌아가기
 			System.out.println("학생 등록을 종료하고 메인 메뉴로 돌아갑니다.");
+			System.out.println("==============================================");
+			System.out.println();
 			Menu.selectMenu();
 		}
 
 	}
+
 
 	// 학생 등록 함수
 	public static void registerStudent() {
@@ -46,7 +48,7 @@ public class StudentManagement {
 		if (sc.nextLine().equals("y")) {
 			// Student 객체 생성하여 ArrayList에 추가
 			Student student = new Student(studentInfo);
-			studentArray.add(student);
+			FileManager.studentArray.add(student);
 
 			// 이후 작업여부 묻는 함수 호출
 			registerQ();
@@ -191,10 +193,6 @@ public class StudentManagement {
 	}
 
 	public static void changeStudent() {
-
-	}
-
-	public static void gradeManagement() {
 
 	}
 

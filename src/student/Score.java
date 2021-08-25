@@ -1,10 +1,10 @@
 package student;
 
-public class Subject {
+public class Score {
 	int student_id;
 	String subject_code, subject_name, type, professor, grade;
 	
-	public Subject(int student_id, String subject_code, String subject_name, String type, String professor,
+	public Score(int student_id, String subject_code, String subject_name, String type, String professor,
 			String grade) {
 		this.student_id = student_id;
 		this.subject_code = subject_code;

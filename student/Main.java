@@ -6,11 +6,10 @@ public class Main {
 	public static void main(String[] args) {
 		
 		// 파일 불러오기
-		FileManager.loadStudentFile();
-		FileManager.loadTimetableFile();
+		//FileManager.loadStudentFile();
+		//FileManager.loadTimetableFile();
 		
-		
-		
+		StudentManagement.registerStudent();
 	}
 
 }

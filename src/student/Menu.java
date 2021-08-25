@@ -39,10 +39,9 @@ public class Menu {
 				System.out.println("========================================================");
 				System.out.println("1.학생 등록  2.학생 정보 조회  3.학생 정보 수정 4.성적 관리  5.종료");
 				System.out.println("========================================================");
-				Integer.parseInt(scanner.nextLine());
+				MainMenuNum = Integer.parseInt(scanner.nextLine());
 			}
 		}
-		
 	}
 
 }

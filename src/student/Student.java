@@ -1,8 +1,11 @@
 package student;
 
+import java.util.ArrayList;
+
 public class Student {
 	int student_id, student_grade;
 	String student_name, student_major, student_tel, student_state;
+	ArrayList<Grade> grade = new ArrayList<>();
 	
 	public Student(String[] studentInfo) {
 		this.student_id = Integer.parseInt(studentInfo[0]);
@@ -12,10 +15,20 @@ public class Student {
 		this.student_tel = studentInfo[4];
 		this.student_state = studentInfo[5];
 	}
+	
+	public static Student getStudentFromID(int student_id) {
+		for(Student student : FileManager.studentArray) {
+			if(student.student_id == student_id) {
+				return student;
+			}
+		}
+		return null;
+	}
+	
 
 	@Override
 	public String toString() {
-		return String.format("%-11d%-5d%-5s%-9s%-17s%-10s", student_id, student_grade, student_name, student_major, student_tel, student_state);
+		return String.format(" %-11d%-5d%-5s%-9s%-17s%-10s ", student_id, student_grade, student_name, student_major, student_tel, student_state);
 	}
 	
 	

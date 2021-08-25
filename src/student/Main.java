@@ -7,7 +7,7 @@ public class Main {
 		
 		// 파일 불러오기
 		FileManager.loadStudentFile();
-		FileManager.loadTimetableFile();
+		FileManager.loadGradeFile();
 		
 		Menu menu = new Menu();
 		menu.selectMenu();

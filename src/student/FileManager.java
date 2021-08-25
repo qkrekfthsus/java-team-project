@@ -7,24 +7,37 @@ import java.util.ArrayList;
 
 public class FileManager {
 	public static ArrayList<Student> studentArray = new ArrayList<>();
-	public static ArrayList<Subject> timetableArray = new ArrayList<>();
+	public static ArrayList<Grade> gradeArray = new ArrayList<>();
 	
 	
 	public static void loadStudentFile() {
 		// 학생 정보 파일들을 불러와서 라인마다 Student 객체 생성
-		// studentArray에 추가
-		studentArray.add(new Student("20211560	1	김재은	지리학과	010-2238-0548	재학".split("\t")));
-		studentArray.add(new Student("20210513	1	서혜린	사회복지학과	010-5483-1578	휴학".split("\t")));
-		studentArray.add(new Student("20210123	1	한가희	경영학과	010-0311-1556	재학".split("\t")));
-		studentArray.add(new Student("20210864	1	이은유	컴퓨터공학과	010-9566-5844	재학".split("\t")));
-		studentArray.add(new Student("20210708	1	황시우	국어국문학과	010-1541-1366	재학".split("\t")));
-		studentArray.add(new Student("20190835	3	황은채	컴퓨터공학과	010-7225-0775	휴학".split("\t")));
+				// studentArray에 추가
+		try {
+			//FileReader와 BufferedReader로 StudentData 파일 읽어오기
+			BufferedReader reader = new BufferedReader(new FileReader("StudentData.txt"));
+			String line = null;
+			
+			//라인별로 읽어와서 studentInfo에  탭 기준으로 split
+			while ((line = reader.readLine()) != null) {
+				String[] studentInfo = line.split("\t");
+				
+				//student객체 생성후 파라미터값으로 받은 studentInfo를 studentArray에 추가
+				Student student = new Student(studentInfo);
+				studentArray.add(student);
+			}
+			//reader닫기
+			reader.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public static void loadTimetableFile() {
+	public static void loadGradeFile() {
 		// 시간표 파일을 불러와서 라인마다 Timetable 객체 생성
 		// timetableArray에 추가
 		
+		score();
 	}
 	
 	/* 파일 입출력 진행하실 때, 상황에 맞게 수정해주세요
@@ -41,4 +54,15 @@ public class FileManager {
 		// 
 	}
 	*/
+	public static void score() {
+		for(Student std : studentArray) {
+			ArrayList<Grade> gdArray = new ArrayList<>();
+			for(Grade gd : gradeArray) {
+				if(std.student_id == gd.student_id) {
+					gdArray.add(gd);
+				}
+			}
+			std.grade = gdArray;
+		}
+	}
 }

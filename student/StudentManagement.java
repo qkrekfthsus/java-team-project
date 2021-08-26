@@ -3,88 +3,31 @@ package student;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 public class StudentManagement {
-
-	static Scanner sc = new Scanner(System.in);
-	//static ArrayList<Student> studentArray = new ArrayList<>();
 	static String[] studentInfo = new String[6];
+	static Scanner sc = new Scanner(System.in);
+	static String[] list = {"ÇĞ¹ø", "ÇĞ³â", "ÀÌ¸§", "ÇĞ°ú", "ÀüÈ­¹øÈ£", "ÇĞÀû»óÅÂ"};
 
-	// ÀÌÈÄ ÀÛ¾÷ ¿©ºÎ ¹¯´Â ÇÔ¼ö
-	public static void registerQ() {
-
-		System.out.println("==============================================");
-		System.out.println("ÇĞ»ı µî·ÏÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù. °è¼Ó ÀÛ¾÷ÇÏ½Ã°Ú½À´Ï±î? (y/n)");
-
-		if (sc.nextLine().equals("y")) {
-			// ÇĞ»ı µî·Ï ÇÔ¼ö È£Ãâ
-			registerStudent();
-		} else {
-			// ¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°¡±â
-			System.out.println("ÇĞ»ı µî·ÏÀ» Á¾·áÇÏ°í ¸ŞÀÎ ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù.");
-			System.out.println("==============================================");
-			System.out.println();
-			Menu.selectMenu();
-		}
-
-	}
-
-
-	// ÇĞ»ı µî·Ï ÇÔ¼ö
+	// ÇĞ»ı µî·Ï ¸Ş¼Òµå
 	public static void registerStudent() {
-
 		System.out.println("*»õ·Î¿î ÇĞ»ı Á¤º¸¸¦ µî·ÏÇÕ´Ï´Ù. (»óÅÂ ±âº»°ªÀº ÀçÇĞÀ¸·Î µî·ÏµÊ)");
 		registerId();
-	}
+		registerGrade();
+		registerName();
+		registerMajor();
+		registerTel();
+	}				
+
 	
-	// ÀÔ·ÂÇÑ °ªÀÌ ¸Â´ÂÁö È®ÀÎ
-	public static void infoQ() {
-		
-		for (int i = 0; i < studentInfo.length; i++) {
-			System.out.print(studentInfo[i] + " ");
-		}
-		System.out.println();
-		System.out.println("µî·ÏÇÏ½Ç Á¤º¸°¡ ¸Â½À´Ï±î? (y/n)");
-		if (sc.nextLine().equals("y")) {
-			// Student °´Ã¼ »ı¼ºÇÏ¿© ArrayList¿¡ Ãß°¡
-			Student student = new Student(studentInfo);
-			FileManager.studentArray.add(student);
-
-			// ÀÌÈÄ ÀÛ¾÷¿©ºÎ ¹¯´Â ÇÔ¼ö È£Ãâ
-			registerQ();
-		} else {
-			System.out.println("ÀçÀÔ·ÂÇÒ Ç×¸ñ¸íÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
-			String info = sc.nextLine();
-			if (info.equals("ÇĞ¹ø")) {
-				registerId();
-				infoQ();
-			} else if (info.equals("ÇĞ³â")) {
-				registerGrade();
-				infoQ();
-			} else if (info.equals("ÀÌ¸§")) {
-				registerName();
-				infoQ();
-			} else if (info.equals("ÇĞ°ú")) {
-				registerMajor();
-				infoQ();
-			} else if (info.equals("ÀüÈ­¹øÈ£")) {
-				registerTel();
-				infoQ();
-			}
-		}
-	}
-
 	// ÇĞ¹øÀÔ·Â
 	public static void registerId() {
 		System.out.println("----------------------------------------------");
 		System.out.println("µî·ÏÇÒ ÇĞ»ıÀÇ ÇĞ¹øÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä. (¼ıÀÚ8ÀÚ¸®)");
 		while (true) {
 			String id = sc.nextLine();
-			if (isId(id) == true) {
-				overlap(id);
+			if (StudentVerify.isId(id)) {
 				studentInfo[0] = id;
-				registerGrade();
 				break;
 			} else {
 				System.out.println("ÇĞ¹øÀ» È®ÀÎ ÈÄ ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä. (¼ıÀÚ8ÀÚ¸®)");
@@ -100,9 +43,8 @@ public class StudentManagement {
 		System.out.println("µî·ÏÇÒ ÇĞ»ıÀÇ ÇĞ³âÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä. (¼ıÀÚ1ÀÚ¸®)");
 		while (true) {
 			String grade = sc.nextLine();
-			if (isGrade(grade) == true) {
+			if (StudentVerify.isGrade(grade)) {
 				studentInfo[1] = grade;
-				registerName();
 				break;
 			} else {
 				System.out.println("ÇĞ³âÀ» È®ÀÎ ÈÄ ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä. (¼ıÀÚ1ÀÚ¸®)");
@@ -118,9 +60,8 @@ public class StudentManagement {
 		System.out.println("µî·ÏÇÒ ÇĞ»ıÀÇ ÀÌ¸§À» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
 		while (true) {
 			String name = sc.nextLine();
-			if (isName(name) == true) {
+			if (StudentVerify.isName(name)) {
 				studentInfo[2] = name;
-				registerMajor();
 				break;
 			} else {
 				System.out.println("ÀÌ¸§À» È®ÀÎ ÈÄ ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
@@ -136,9 +77,8 @@ public class StudentManagement {
 		System.out.println("µî·ÏÇÒ ÇĞ»ıÀÇ ÇĞ°ú¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. (ex. xxÇĞ°ú)");
 		while (true) {
 			String major = sc.nextLine();
-			if (isMajor(major) == true) {
+			if (StudentVerify.isMajor(major)) {
 				studentInfo[3] = major;
-				registerTel();
 				break;
 			} else {
 				System.out.println("ÇĞ°ú¸¦ È®ÀÎ ÈÄ ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä. (ex. xxÇĞ°ú)");
@@ -154,11 +94,14 @@ public class StudentManagement {
 		System.out.println("µî·ÏÇÒ ÇĞ»ıÀÇ ÀüÈ­¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. (¹øÈ£¸¸ ÀÔ·ÂÇØÁÖ¼¼¿ä.)");
 		while (true) {
 			String tel = sc.nextLine();
-			if (isMob(tel) == true) {
-				overlap(tel);
+			if (StudentVerify.isMob(tel)) {
 				studentInfo[4] = tel;
 				studentInfo[5] = "ÀçÇĞ";
-				infoQ();
+				while(true) {
+					if(infoQ()) {
+						break;
+					}
+				}
 				break;
 			} else {
 				System.out.println("ÀüÈ­¹øÈ£¸¦ È®ÀÎ ÈÄ ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä. (¹øÈ£¸¸ ÀÔ·ÂÇØÁÖ¼¼¿ä.)");
@@ -168,42 +111,59 @@ public class StudentManagement {
 
 	}
 
-	// À¯È¿¼º°Ë»ç
-	public static boolean isId(String str) {
-		return Pattern.matches("^\\d{8}$", str);
-	}
-
-	public static boolean isGrade(String str) {
-		return Pattern.matches("^\\d{1}$", str);
-	}
-
-	public static boolean isName(String str) {
-		return Pattern.matches("^[a-zA-Z]*$|^[¤¡-¤¾°¡-ÆR]*$", str);
-	}
-
-	public static boolean isMajor(String str) {
-		return Pattern.matches("^([°¡-ÆR]*)ÇĞ°ú$", str);
-	}
-
-	public static boolean isMob(String str) {
-		return Pattern.matches("^\\d{3}-\\d{3,4}-\\d{4}$", str);
+	// ÀÔ·ÂÇÑ °ªÀÌ ¸Â´ÂÁö È®ÀÎ
+	public static boolean infoQ() {
+		
+		for (int i = 0; i < studentInfo.length; i++) {
+			System.out.print(studentInfo[i] + " ");
+		}
+		System.out.println();
+		System.out.println("µî·ÏÇÏ½Ç Á¤º¸°¡ ¸Â½À´Ï±î? (y/n)");
+		if (sc.nextLine().equals("y")) {
+			// Student °´Ã¼ »ı¼ºÇÏ¿© ArrayList¿¡ Ãß°¡
+			Student student = new Student(studentInfo);
+			FileManager.studentArray.add(student);
+			
+			// ÀÌÈÄ ÀÛ¾÷¿©ºÎ ¹¯´Â ÇÔ¼ö È£Ãâ
+			registerQ();
+			return true;
+		} else {
+			System.out.println("ÀçÀÔ·ÂÇÒ Ç×¸ñ¸íÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+			String info = sc.nextLine();
+			if (info.equals("ÇĞ¹ø")) {
+				registerId();
+			} else if (info.equals("ÇĞ³â")) {
+				registerGrade();
+			} else if (info.equals("ÀÌ¸§")) {
+				registerName();
+			} else if (info.equals("ÇĞ°ú")) {
+				registerMajor();
+			} else if (info.equals("ÀüÈ­¹øÈ£")) {
+				registerTel();
+			}
+			return false;
+		}
 	}
 	
-	public static String overlap(String str) {
-		String a = str;
-		for (int i = 0; i < FileManager.studentArray.size(); i++) {
-			String existValue = FileManager.studentArray.get(i).toString();
-			if(existValue.contains(" "+a+" ")) {
-				a = "Áßº¹µÈ Á¤º¸ÀÔ´Ï´Ù. È®ÀÎ ÈÄ ´Ù½Ã ÀÔ·ÂÇØ ÁÖ½Ê½Ã¿À.";
-			}
+	// ÀÌÈÄ ÀÛ¾÷ ¿©ºÎ ¹¯´Â ÇÔ¼ö
+	public static void registerQ() {
+
+		System.out.println("==============================================");
+		System.out.println("ÇĞ»ı µî·ÏÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù. °è¼Ó ÀÛ¾÷ÇÏ½Ã°Ú½À´Ï±î? (y/n)");
+		System.out.println("==============================================");
+
+		if (sc.nextLine().equals("y")) {
+			// ÇĞ»ı µî·Ï ÇÔ¼ö È£Ãâ
+			registerStudent();
+		} else {
+			// ¸ŞÀÎ¸Ş´º·Î µ¹¾Æ°¡±â
+			System.out.println("ÇĞ»ı µî·ÏÀ» Á¾·áÇÏ°í ¸ŞÀÎ ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù.");
 		}
-		return a;
-	}
 
-///////////////////////////////////////////////////////////////////////////////////
+	}	
+	
+	public static void searchStudent(Scanner scanner) {
 
-	public static void searchStudent() {
-		Scanner scanner = new Scanner(System.in);
 		
 		boolean resetSearch = true;
 		while(resetSearch) {
@@ -237,14 +197,6 @@ public class StudentManagement {
 
 		}
 		System.out.println("¸ŞÀÎ È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.");
-	}
-	
-	public static void changeStudent() {
-		
-	}
-	
-	public static void gradeManagement() {
-		
 	}
 	
 	// °Ë»ö °á°ú¸¦ Ãâ·Â
@@ -301,5 +253,157 @@ public class StudentManagement {
 		return printSearchResult(scanner, result, deleteIndex);
 	
 	}
+	
+	public static void changeStudent(Scanner scanner){
+		String input;
+		
+		ArrayList<Student> studentArray = new ArrayList<>();
+		studentArray.addAll(FileManager.studentArray);
+		String[] studentInfoArray = new String[6];
+		
+		while (true) {
+			
+	
+			System.out.println("====================================================");
+			System.out.println("ÀÎÀû»çÇ×À» º¯°æÇÒ ÇĞ»ıÀÇ ÇĞ¹øÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+			System.out.println("====================================================");
+			
+			input = scanner.nextLine();
+			
+			try{
+				Student updateStudent = Student.getStudentFromID(Integer.parseInt(input));
+				if(updateStudent == null){
+					System.out.println("Á¸Àç ÇÏÁö ¾Ê´Â ÇĞ¹øÀÔ´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+					continue;
+				}
+				else {
+					studentInfoArray = new String[]{String.valueOf(updateStudent.student_id),String.valueOf(updateStudent.student_grade),updateStudent.student_name,
+							updateStudent.student_major,updateStudent.student_tel,updateStudent.student_state};
+					System.out.println("====================================================");
+					System.out.println(String.format("%-10s%-5s%-5s%-10s%-15s%-10s", "ÇĞ¹ø", "ÇĞ³â", "ÀÌ¸§", "ÇĞ°ú", "ÀüÈ­¹øÈ£", "ÇĞÀû»óÅÂ"));
+					System.out.println(updateStudent.toString());
+					System.out.println("ÀÎÀû »çÇ×À» º¯°æ ÇÏ½Ã°Ú½À´Ï±î?(y/n)");
+					System.out.println("====================================================");
+					input = scanner.nextLine();
 
+					if (input.equals("y")) {
+						System.out.println("====================================================");
+						System.out.println("º¯°æÇÒ Ç×¸ñÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä. (Ç×¸ñ : ÇĞ¹ø, ÇĞ³â, ÀÌ¸§, ÇĞ°ú, ÀüÈ­¹øÈ£, ÇĞÀû»óÅÂ)");
+						System.out.println("====================================================");
+						input = scanner.nextLine();
+						int index = getListIndex(input, list);
+						
+						update(scanner, index, studentInfoArray, updateStudent);
+					}
+					else {
+						continue;
+					}
+				}
+			}catch(NumberFormatException e) {
+				System.out.println("¼ıÀÚ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				continue;
+			}
+		}
+	}
+	
+	public static int getListIndex(String input,String[] list) {
+		for(int i =0; i< list.length; i++) {
+			if(input.equals(list[i])) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	public static void update(Scanner scanner, int index, String[] studentInfoArray, Student student) {
+		String input;
+		if(index == -1) {
+			System.out.println("Ç×¸ñÀÌ Àß¸øÀÔ·ÂµÇ¾ú½À´Ï´Ù.");
+		}
+		
+		else {
+			System.out.println("====================================================");
+			System.out.println("º¯°æÇÒ " +list[index]+"À»(¸¦) ÀÔ·ÂÇØÁÖ¼¼¿ä. ÇöÀç "+list[index]+"Àº(´Â) " +studentInfoArray[index]+"ÀÔ´Ï´Ù.");
+			System.out.println("====================================================");
+			switch(index) {
+				case 0:
+					System.out.println("ÇĞ¹øÀº º¯°æÇÒ¼ö ¾ø½À´Ï´Ù.");
+					break;
+				case 1:
+					while(true) {
+						input = scanner.nextLine();
+						if(StudentVerify.isGrade(input)) {
+							student.student_grade = Integer.parseInt(input);
+							Print(student);
+							break;
+						}
+						else {
+							System.out.println("ÇĞ³âÀ» È®ÀÎ ÈÄ ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä. (¼ıÀÚ1ÀÚ¸®)");
+						}
+					}
+					break;
+				case 2:
+					while(true) {
+						input = scanner.nextLine();
+						if(StudentVerify.isName(input)) {
+							student.student_name = input;
+							Print(student);
+							break;
+						}
+						else {
+							System.out.println("ÀÌ¸§À» È®ÀÎ ÈÄ ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+						}
+						
+					}
+					break;
+				case 3:
+					while(true) {
+						input = scanner.nextLine();
+						if(StudentVerify.isMajor(input)) {
+							student.student_major = input;
+							Print(student);
+							break;
+						}
+						else {
+							System.out.println("ÇĞ°ú¸¦ È®ÀÎ ÈÄ ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä. (ex. xxÇĞ°ú)");
+						}
+					}
+					break;
+				case 4:
+					while(true) {
+						input = scanner.nextLine();
+						if(StudentVerify.isMob(input)) {
+							student.student_tel = input;
+							Print(student);
+							break;
+						}
+						else {
+							System.out.println("ÀüÈ­¹øÈ£¸¦ È®ÀÎ ÈÄ ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä. (ÀçÇĞ, ÈŞÇĞ, Á¹¾÷, ÀÚÅğ¸¸ ÀÔ·Â °¡´É)");
+						}
+					}
+					break;
+				case 5:
+					while(true) {
+						input = scanner.nextLine();
+						if(StudentVerify.isState(input)) {
+							student.student_state = input;
+							Print(student);
+							break;
+						}
+						else {
+							System.out.println("ÇĞÀû»óÅÂ¸¦ È®ÀÎ ÈÄ ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä. (¹øÈ£¸¸ ÀÔ·ÂÇØÁÖ¼¼¿ä.)");
+						}
+					}
+					break;
+			}
+		}
+	}
+	
+	public static void Print(Student student) {
+		System.out.println("====================================================");
+		System.out.println(String.format("%-10s%-5s%-5s%-10s%-15s%-10s", "ÇĞ¹ø", "ÇĞ³â", "ÀÌ¸§", "ÇĞ°ú", "ÀüÈ­¹øÈ£", "ÇĞÀû»óÅÂ"));
+		System.out.println(student.toString());
+		System.out.println("º¯°æµÇ¾ú½À´Ï´Ù.");
+		System.out.println("====================================================");
+	}
 }

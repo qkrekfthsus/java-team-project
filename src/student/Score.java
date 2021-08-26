@@ -1,10 +1,10 @@
 package student;
 
-public class Subject {
+public class Score {
 	int student_id;
 	String subject_code, subject_name, type, professor, grade, reason;
 	
-	public Subject(int student_id, String subject_code, String subject_name, String type, String professor,
+	public Score(int student_id, String subject_code, String subject_name, String type, String professor,
 			String grade, String reason) {
 		this.student_id = student_id;
 		this.subject_code = subject_code;
@@ -15,7 +15,7 @@ public class Subject {
 		this.reason = reason;
 	}
 	
-	public Subject(String[] subjectInfo) {
+	public Score(String[] subjectInfo) {
 		this.type = subjectInfo[0];
 		this.subject_code = subjectInfo[1];
 		this.subject_name = subjectInfo[2];
@@ -24,5 +24,5 @@ public class Subject {
 		this.reason = subjectInfo[5];
 	}
 	
-	// 201xxxxx/°ú¸ñ ÄÚµå/°ú¸ñ¸í/´ã´ç ±³¼ö/¼ºÀû/¼ºÀû º¯µ¿ »çÀ¯
+	// 201xxxxx/ê³¼ëª©ëª…/ê³¼ëª© ì½”ë“œ/ë‹´ë‹¹ êµìˆ˜/ìš”ì¼/êµì‹œ
 }

@@ -1,70 +1,94 @@
 package student;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class FileManager {
 	public static ArrayList<Student> studentArray = new ArrayList<>();
-	public static ArrayList<Subject> timetableArray = new ArrayList<>();
-
+	public static ArrayList<Score> scoreArray = new ArrayList<>();
+	
+	//StudentData.txt ë¶ˆëŸ¬ì˜¤ê¸°
 	public static void loadStudentFile() {
-		// ÇĞ»ı Á¤º¸ ÆÄÀÏµéÀ» ºÒ·¯¿Í¼­ ¶óÀÎ¸¶´Ù Student °´Ã¼ »ı¼º
-		// studentArray¿¡ Ãß°¡
 		try {
-			//FileReader¿Í BufferedReader·Î StudentData ÆÄÀÏ ÀĞ¾î¿À±â
 			BufferedReader reader = new BufferedReader(new FileReader("StudentData.txt"));
 			String line = null;
-			
-			//¶óÀÎº°·Î ÀĞ¾î¿Í¼­ studentInfo¿¡  ÅÇ ±âÁØÀ¸·Î split
 			while ((line = reader.readLine()) != null) {
 				String[] studentInfo = line.split("\t");
 				
-				//student°´Ã¼ »ı¼ºÈÄ ÆÄ¶ó¹ÌÅÍ°ªÀ¸·Î ¹ŞÀº studentInfo¸¦ studentArray¿¡ Ãß°¡
+				
 				Student student = new Student(studentInfo);
 				studentArray.add(student);
 			}
-			//reader´İ±â
+			
 			reader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	//StudentData.txt ì €ì¥í•˜ê¸°
+	public static void saveStudentFile() {
 		
-	}
-
-	public static void addStudent(Student std) {
-		// studentArray¿¡ std ÇĞ»ıÀ» Ãß°¡ÇÏ°í
-		studentArray.add(std);
-	}
-
-	public static void saveStudentFile(ArrayList<Student> studentInfo) {
-		//ÇÁ·Î±×·¥ Á¾·áÈÄ studentArray¸¦ ÀúÀåÇÑ´Ù
-		studentArray.addAll(studentInfo);
-	}
-
-	
-	public static void loadTimetableFile(){
-		// ½Ã°£Ç¥ ÆÄÀÏÀ» ºÒ·¯¿Í¼­ ¶óÀÎ¸¶´Ù Timetable °´Ã¼ »ı¼º
-		// timetableArray¿¡ Ãß°¡
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader("SubjectData.txt"));
+			FileWriter saveStd = new FileWriter("StudentData.txt",false);
+			BufferedWriter bwStd = new BufferedWriter(saveStd);
+			for (int i = 0; i < studentArray.size(); i++) {
+				bwStd.write(studentArray.get(i).toString());
+				bwStd.newLine();
+			}	
+			bwStd.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//ScoreData.txt ë¶ˆëŸ¬ì˜¤ê¸°
+	public static void loadScoreFile(){
+		try {		
+			BufferedReader reader = new BufferedReader(new FileReader("ScoreData.txt"));
 			String line = null;
 			while ((line = reader.readLine()) != null) {
-				String[] SubjectInfo = line.split("\t");
-				Subject subject = new Subject(SubjectInfo);
-				timetableArray.add(subject);
+				String[] scoreInfo = line.split("\t");
+				Score score = new Score(scoreInfo);
+				scoreArray.add(score);
 			}
 			reader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-
-		/*
-		 ÆÄÀÏ ÀÔÃâ·Â ÁøÇàÇÏ½Ç ¶§, »óÈ²¿¡ ¸Â°Ô ¼öÁ¤ÇØÁÖ¼¼¿ä
-		 public static void delStudent(Student std) {
-		 
-		 }
-		*/
+	}
+	
+	//ScoreData.txt ì €ì¥í•˜ê¸°
+	public static void saveScoreFile() {
+		try {
+			FileWriter saveScore = new FileWriter("test.txt",false);
+			BufferedWriter bwScore = new BufferedWriter(saveScore);
+			for (int i = 0; i < scoreArray.size(); i++) {
+				bwScore.write(scoreArray.get(i).toString());
+				bwScore.newLine();
+			}
+			score();
+			bwScore.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static void score() {
+		for(Student std : studentArray) {
+			ArrayList<Score> scArray = new ArrayList<>();
+			for(Score sc : scoreArray) {
+				if(std.student_id == sc.student_id) {
+					scArray.add(sc);
+				}
+			}
+			std.score = scArray;
+		}
 	}
 }

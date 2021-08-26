@@ -15,7 +15,7 @@ public class Score {
 	}
 	//학번과 과목코드 검색
 	public static Score getScoreFromID(int student_id,String Code) {
-	      for(Score score : FileManager.timetableArray) {
+	      for(Score score : FileManager.scoreArray) {
 	         if((score.student_id == student_id) && (score.subject_code.equals(Code))) {
 	        	
 	            return score;
@@ -25,7 +25,7 @@ public class Score {
 	   }
 	
 	public static Score getScoreFromID(int student_id) {
-		for(Score score : FileManager.timetableArray) {
+		for(Score score : FileManager.scoreArray) {
 	         if(score.student_id == student_id) {
 	        	return score;
 	         }        
@@ -34,7 +34,7 @@ public class Score {
 	}
 	
 	public static Score getScoreFromID(String Code) {
-		for(Score score : FileManager.timetableArray) {
+		for(Score score : FileManager.scoreArray) {
 	         if(score.subject_code.equals(Code)) {
 	        	return score;
 	         }        

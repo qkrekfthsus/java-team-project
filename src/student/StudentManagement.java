@@ -30,7 +30,7 @@ public class StudentManagement {
 		while (true) {
 			
 			System.out.println("====================================================");
-			System.out.println("인적사항을 변경할 학생의 학번을 입력해주세요. (뒤로돌아가기(n))");
+			System.out.println("인적사항을 변경할 학생의 학번을 입력해주세요. (처음으로 돌아가기(n))");
 			System.out.println("====================================================");
 			input = scanner.nextLine();
 			if(input.equals("n")) {

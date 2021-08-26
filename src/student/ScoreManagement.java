@@ -2,9 +2,9 @@ package student;
 
 import java.util.Scanner;
 
-public class GradeManagement {
+public class ScoreManagement {
 	
-	public static void gradeMenu() {
+	public static void scoreMenu() {
 		Scanner scanner = new Scanner(System.in);
 
 		int MainMenuNum = 0;
@@ -20,13 +20,13 @@ public class GradeManagement {
 				StudentManagement.registerStudent();
 				break;
 			}else if(MainMenuNum == 2){
-				StudentManagement.searchStudent();
+				StudentManagement.searchStudent(scanner);
 				break;
 			}else if(MainMenuNum == 3){
-				StudentManagement.changeStudent();
+				StudentManagement.changeStudent(scanner);
 				break;
 			}else if(MainMenuNum == 4) {
-				StudentManagement.gradeManagement();
+				
 				break;
 			}else if(MainMenuNum == 5) {
 				// System.out.println("프로그램이 종료되었습니다.");
@@ -36,30 +36,32 @@ public class GradeManagement {
 				break;
 			}else {
 				System.out.println("다시 입력해주세요.");
-				System.out.println("========================================================");
+				System.out.println("----------------------------------------------------------------------");
 				System.out.println("1.학생 등록  2.학생 정보 조회  3.학생 정보 수정 4.성적 관리  5.종료");
-				System.out.println("========================================================");
+				System.out.println("----------------------------------------------------------------------");
 				MainMenuNum = Integer.parseInt(scanner.nextLine());
 			}
 		}
 	}
 	
-	public static void readGrade() {
+	public static void registerScore() {}
+	
+	public static void readScore() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("=======================================================");
+		System.out.println("----------------------------------------------------------------------");
 		System.out.println("성적을 조회할 학생의 학번을 입력해주세요.");
-		System.out.println("=======================================================");
+		System.out.println("----------------------------------------------------------------------");
 		
 		int student_id = Integer.parseInt(scanner.nextLine());
 		
 		Student readForStudent = Student.getStudentFromID(student_id);
 		
 		if(readForStudent != null) {
-			if(!readForStudent.grade.isEmpty()) {
-				for(Grade grade : readForStudent.grade) {
-					System.out.println("=======================================================");
+			if(!readForStudent.score.isEmpty()) {
+				for(Score grade : readForStudent.score) {
+					System.out.println("----------------------------------------------------------------------");
 					System.out.println();
-					System.out.println("=======================================================");
+					System.out.println("----------------------------------------------------------------------");
 					
 				}
 			}
@@ -72,5 +74,7 @@ public class GradeManagement {
 		}
 		
 	}
+	
+	public static void changeScore() {}
 	
 }

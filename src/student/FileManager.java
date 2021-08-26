@@ -7,12 +7,12 @@ import java.util.ArrayList;
 
 public class FileManager {
 	public static ArrayList<Student> studentArray = new ArrayList<>();
-	public static ArrayList<Grade> gradeArray = new ArrayList<>();
+	public static ArrayList<Score> scoreArray = new ArrayList<>();
 	
 	
 	public static void loadStudentFile() {
 		// 학생 정보 파일들을 불러와서 라인마다 Student 객체 생성
-				// studentArray에 추가
+		// studentArray에 추가
 		try {
 			//FileReader와 BufferedReader로 StudentData 파일 읽어오기
 			BufferedReader reader = new BufferedReader(new FileReader("StudentData.txt"));
@@ -33,11 +33,11 @@ public class FileManager {
 		}
 	}
 	
-	public static void loadGradeFile() {
+	public static void loadScoreFile() {
 		// 시간표 파일을 불러와서 라인마다 Timetable 객체 생성
 		// timetableArray에 추가
 		
-		score();
+		Student.loadStudentScore();
 	}
 	
 	/* 파일 입출력 진행하실 때, 상황에 맞게 수정해주세요
@@ -54,15 +54,5 @@ public class FileManager {
 		// 
 	}
 	*/
-	public static void score() {
-		for(Student std : studentArray) {
-			ArrayList<Grade> gdArray = new ArrayList<>();
-			for(Grade gd : gradeArray) {
-				if(std.student_id == gd.student_id) {
-					gdArray.add(gd);
-				}
-			}
-			std.grade = gdArray;
-		}
-	}
+	
 }

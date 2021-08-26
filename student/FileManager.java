@@ -43,7 +43,7 @@ public class FileManager {
 	}
 
 	
-	public static void loadTimetableFile(){
+	public static void loadScoreFile(){
 		// 수강 파일을 불러와서 라인마다 Score객체 생성
 		// scoreArray에 추가
 		try {

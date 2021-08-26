@@ -17,7 +17,7 @@ public class ScoreManagement {
 			MainMenuNum = Integer.parseInt(scanner.nextLine());
 
 			if(MainMenuNum == 1) {
-				StudentManagement.registerStudent();
+				StudentManagement.registerStudent(scanner);
 				break;
 			}else if(MainMenuNum == 2){
 				StudentManagement.searchStudent(scanner);
@@ -46,31 +46,45 @@ public class ScoreManagement {
 	
 	public static void registerScore() {}
 	
-	public static void readScore() {
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("----------------------------------------------------------------------");
-		System.out.println("성적을 조회할 학생의 학번을 입력해주세요.");
-		System.out.println("----------------------------------------------------------------------");
-		
-		int student_id = Integer.parseInt(scanner.nextLine());
-		
-		Student readForStudent = Student.getStudentFromID(student_id);
-		
-		if(readForStudent != null) {
-			if(!readForStudent.score.isEmpty()) {
-				for(Score grade : readForStudent.score) {
-					System.out.println("----------------------------------------------------------------------");
-					System.out.println();
-					System.out.println("----------------------------------------------------------------------");
-					
+	public static void readScore(Scanner scanner) {
+		boolean restart = true;
+		while(restart) {
+			try {
+				System.out.println("---------------------------------------------------");
+				System.out.println("성적을 조회할 학생의 학번을 입력해주세요.");
+				System.out.println("---------------------------------------------------");
+				
+				int student_id = Integer.parseInt(scanner.nextLine());
+				
+				Student studentToRead = Student.getStudentFromID(student_id);
+				
+				if(studentToRead != null) {
+					if(!studentToRead.score.isEmpty()) {
+						System.out.println("----------------------------------------------------------------------");
+						System.out.println(String.format("%-10s%-7s%-15s%-5s%-5s%-3s%-10s", "학번", "과목 코드", "과목명", "구분", "담당교수", "성적", "변동 사유"));
+						System.out.println("----------------------------------------------------------------------");
+
+						for(Score grade : studentToRead.score) {
+							System.out.println(grade.toString());
+						// 20160506	C051	사회복지행정론	이은아	전선	C	없음	
+						}
+					}
+					else {
+						System.out.println("조회할 성적이 없습니다.");
+					}
 				}
+				else {
+					System.out.println("해당 학생이 존재하지 않습니다.");
+				}
+				System.out.println("----------------------------------------------------------------------");
+				System.out.println("다른 학생을 조회하시겠습니까?(y/n)");
+				System.out.println("----------------------------------------------------------------------");
+				
+				restart = scanner.nextLine().equals("y") ? true :false;
 			}
-			else {
-				System.out.println("조회할 성적이 없습니다.");
+			catch(NumberFormatException e) {
+				System.out.println("학번 8자리 숫자를 입력해주세요.");
 			}
-		}
-		else {
-			System.out.println("해당 학생이 존재하지 않습니다.");
 		}
 		
 	}

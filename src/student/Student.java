@@ -31,7 +31,7 @@ public class Student {
 	}
 	@Override
 	public String toString() {
-		return String.format(" %-11d%-5d%-5s%-9s%-17s%-10s ", student_id, student_grade, student_name, student_major, student_tel, student_state);
+		return String.format("%-11d%-5d%-5s%-9s%-17s%-10s", student_id, student_grade, student_name, student_major, student_tel, student_state);
 	}
 	
 	public static void loadStudentScore() {

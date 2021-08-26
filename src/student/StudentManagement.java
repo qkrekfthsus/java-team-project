@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class StudentManagement {
-	static Scanner scanner = new Scanner(System.in);
-	static String input;
+	public static Scanner scanner = new Scanner(System.in);
+	public static String input;
 	
 	public static void registerStudent() {
 
@@ -23,22 +23,30 @@ public class StudentManagement {
 	public static void changeStudent(){
 		ArrayList<Student> studentArray = new ArrayList<>();
 		studentArray.addAll(FileManager.studentArray);
+		
 		String[] studentInfoArray = new String[6];
 		String[] list = {"학번", "학년", "이름", "학과", "전화번호", "학적상태"};
 		
 		while (true) {
 			
-	
 			System.out.println("====================================================");
-			System.out.println("인적사항을 변경할 학생의 학번을 입력해주세요.");
+			System.out.println("인적사항을 변경할 학생의 학번을 입력해주세요. (뒤로돌아가기(n))");
 			System.out.println("====================================================");
-			
 			input = scanner.nextLine();
-			
+			if(input.equals("n")) {
+				try {
+					Menu.selectMenu();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			try{
 				Student updateStudent = Student.getStudentFromID(Integer.parseInt(input));
 				if(updateStudent == null){
+					System.out.println("====================================================");
 					System.out.println("존재 하지 않는 학번입니다. 다시 입력해주세요.");
+					System.out.println("====================================================");
 					continue;
 				}
 				else {
@@ -53,12 +61,25 @@ public class StudentManagement {
 
 					if (input.equals("y")) {
 						System.out.println("====================================================");
-						System.out.println("변경할 항목을 입력해주세요. (항목 : 학번, 학년, 이름, 학과, 전화번호, 학적상태)");
+						System.out.println("변경할 항목을 입력해주세요. (항목 : 학년, 이름, 학과, 전화번호, 학적상태)");
 						System.out.println("====================================================");
 						input = scanner.nextLine();
 						int index = getListIndex(input,list);
-						
 						update(index,list,studentInfoArray,updateStudent);
+						
+						if(index==-1 || index==0) {
+							continue;
+						}
+						else {
+						System.out.println("인적사항을 추가로 변경하시겠습니까?(y/n)");
+						input = scanner.nextLine();
+						if(input.equals("y")) {
+							continue;
+						}
+						else {
+							break;
+						}
+						}
 					}
 					else {
 						continue;
@@ -68,6 +89,13 @@ public class StudentManagement {
 				System.out.println("숫자를 입력해주세요.");
 				continue;
 			}
+			
+		}
+		try {
+			Menu.selectMenu();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -85,9 +113,14 @@ public class StudentManagement {
 		}
 		
 		else {
-			System.out.println("====================================================");
-			System.out.println("변경할 " +list[index]+"을(를) 입력해주세요. 현재 "+list[index]+"은(는) " +studentInfoArray[index]+"입니다.");
-			System.out.println("====================================================");
+			if(index==0) {
+				
+			}
+			else {
+				System.out.println("====================================================");
+				System.out.println("변경할 " +list[index]+"을(를) 입력해주세요. 현재 "+list[index]+"은(는) " +studentInfoArray[index]+"입니다.");
+				System.out.println("====================================================");
+			}
 			switch(index) {
 				case 0:
 					System.out.println("학번은 변경할수 없습니다.");
@@ -117,6 +150,7 @@ public class StudentManagement {
 					student.student_state = input;
 					Print(student);
 					break;
+			
 			}
 		}
 	}
@@ -130,7 +164,15 @@ public class StudentManagement {
 	}
 	
 	public static void gradeManagement(){
+		System.out.println("====================================================");
+		System.out.println("원하는 기능을 선택해주세요.(1~3 번호를 입력해주세요.)");
+		System.out.println("1.성적 입력  2.성적 조회  3.성적 수정");
+		System.out.println("====================================================");
 		
+		input = scanner.nextLine();
+		if(input.equals("3")) {
+			ScoreManagement.ChangeScore();
+		}
 	}
 
 }

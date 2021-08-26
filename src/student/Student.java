@@ -4,7 +4,6 @@ public class Student {
 	int student_id, student_grade;
 	String student_name, student_major, student_tel, student_state;
 	
-	
 	public Student(String[] studentInfo) {
 		this.student_id = Integer.parseInt(studentInfo[0]);
 		this.student_grade = Integer.parseInt(studentInfo[1]);

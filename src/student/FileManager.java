@@ -47,19 +47,28 @@ public class FileManager {
 		// 시간표 파일을 불러와서 라인마다 Timetable 객체 생성
 		// timetableArray에 추가
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader("SubjectData.txt"));
+			BufferedReader reader = new BufferedReader(new FileReader("ScoreData.txt"));
 			String line = null;
 			while ((line = reader.readLine()) != null) {
-				String[] SubjectInfo = line.split("\t");
-				//Score subject = new Score(SubjectInfo);
-				//timetableArray.add(subject);
+				String[] ScoreInfo = line.split("\t");
+				Score score = new Score(ScoreInfo);
+				timetableArray.add(score);
 			}
 			reader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		/*
+		public static void addStudent(Student std) {
+			// studentArray에 std 학생을 추가하고
+			studentArray.add(std);
+		}
 
+		public static void saveStudentFile(ArrayList<Student> studentInfo) {
+			//프로그램 종료후 studentArray를 저장한다
+			studentArray.addAll(studentInfo);
+		}
+		*/
 		/*
 		 파일 입출력 진행하실 때, 상황에 맞게 수정해주세요
 		 public static void delStudent(Student std) {

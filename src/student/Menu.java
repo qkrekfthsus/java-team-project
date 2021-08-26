@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Menu {
 
 
-	void selectMenu() throws IOException {
+	public static void selectMenu() throws IOException {
 		// 메인 화면 출력
 		// 1. 학생 등록 2. 학생 정보 조회 3. 학생 정보 수정 4. 성적 관리 5. 종료
 		System.out.println("*학생 관리 프로그램입니다.");
@@ -34,6 +34,7 @@ public class Menu {
 			}else if(MainMenuNum == 5) {
 				System.out.println("프로그램이 종료되었습니다.");
 				scanner.close();
+				
 				break;
 			}else {
 				System.out.println("다시 입력해주세요.");

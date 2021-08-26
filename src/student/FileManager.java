@@ -53,6 +53,7 @@ public class FileManager {
 				String[] ScoreInfo = line.split("\t");
 				Score score = new Score(ScoreInfo);
 				timetableArray.add(score);
+				
 			}
 			reader.close();
 		} catch (Exception e) {

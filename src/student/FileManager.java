@@ -47,32 +47,7 @@ public class FileManager {
 		std.score.add(new Score(new String[] {"20170505", "C051", "けけけけけけけ", "ぞぞぞ", "穿識", "A", "蒸製"}));
 		std.score.add(new Score(new String[] {"20170505", "C051", "げげげげげげげ", "けけけ", "穿識", "A", "蒸製"}));
 		
-//		try {
-//			System.out.println("失旋 舛左 督析聖 災君神澗 掻脊艦陥.");
-//
-//			BufferedReader reader = new BufferedReader(new FileReader("ScoreData.txt"));
-//			String line = null;
-//			
-//			//虞昔紺稽 石嬢人辞 studentInfo拭  吐 奄層生稽 split
-//			while ((line = reader.readLine()) != null) {
-//				String[] scoreInfo = line.split("\t");
-//				
-//				
-//				Score score = new Score(scoreInfo);
-//				for(Student student : studentArray) {
-//					if(student.student_id == score.student_id) {
-//						student.score.add(score);
-//					}
-//				}
-//
-//			}
-//			reader.close();
-//			System.out.println("失旋 舛左 督析聖 災君神澗汽 失因梅柔艦陥.");
-//		} catch (Exception e) {
-//			System.out.println("俳持 舛左 督析聖 災君神澗汽 叔鳶梅柔艦陥.");
-//
-//			e.printStackTrace();
-//		}
+
 	}
 	
 	public static void saveStudentFile() {

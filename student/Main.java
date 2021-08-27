@@ -30,7 +30,7 @@ public class Main {
 				StudentManagement.changeStudent(scanner);
 			}else if(MainMenuNum == 4) {
 				//StudentManagement.gradeManagement();
-				ScoreManagement.scoreMenu();
+				ScoreManagement.scoreMenu(scanner);
 			}else if(MainMenuNum == 5) {
 				// System.out.println("프로그램이 종료되었습니다.");
 				// 종료하시겠습니까?(y/n)

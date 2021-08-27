@@ -1,71 +1,85 @@
 package student;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class FileManager {
 	public static ArrayList<Student> studentArray = new ArrayList<>();
-	public static ArrayList<Score> scoreArray = new ArrayList<>();
 
+	// StudentData.txt 불러오기
 	public static void loadStudentFile() {
-		// 학생 정보 파일들을 불러와서 라인마다 Student 객체 생성
-		// studentArray에 추가
 		try {
-			//FileReader와 BufferedReader로 StudentData 파일 읽어오기
 			BufferedReader reader = new BufferedReader(new FileReader("StudentData.txt"));
 			String line = null;
 			
-			//라인별로 읽어와서 studentInfo에  탭 기준으로 split
 			while ((line = reader.readLine()) != null) {
 				String[] studentInfo = line.split("\t");
-				
-				//student객체 생성후 파라미터값으로 받은 studentInfo를 studentArray에 추가
 				Student student = new Student(studentInfo);
 				studentArray.add(student);
 			}
-			//reader닫기
+			
 			reader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 
-	public static void addStudent(Student std) {
-		// studentArray에 std 학생을 추가하고
-		studentArray.add(std);
-	}
-
-	public static void saveStudentFile(ArrayList<Student> studentInfo) {
-		//프로그램 종료후 studentArray를 저장한다
-		studentArray.addAll(studentInfo);
-	}
-
-	
-	public static void loadScoreFile(){
-		// 수강 파일을 불러와서 라인마다 Score객체 생성
-		// scoreArray에 추가
+	// ScoreData.txt 불러오기
+	public static void loadScoreFile() {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader("ScoreData.txt"));
 			String line = null;
+			
 			while ((line = reader.readLine()) != null) {
 				String[] scoreInfo = line.split("\t");
 				Score score = new Score(scoreInfo);
-				scoreArray.add(score);
+				// Student 객체 내의 성적 ArrayList에 데이터 추가
+				Student.loadScore(score);
 			}
+			
 			reader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 
-		/*
-		 파일 입출력 진행하실 때, 상황에 맞게 수정해주세요
-		 public static void delStudent(Student std) {
-		 
-		 }
-		*/
 	}
-}
 
+	// 프로그램이 종료될 때 파일 저장하기
+	public static void saveFiles() {
+		try {
+			// StudentData
+			FileWriter saveStd = new FileWriter("StudentData.txt", false);
+			BufferedWriter bwStd = new BufferedWriter(saveStd);
+			
+			// ScoreData
+			FileWriter saveScore = new FileWriter("ScoreData.txt", false);
+			BufferedWriter bwScore = new BufferedWriter(saveScore);
+
+			for (int i = 0; i < studentArray.size(); i++) {
+				// 학생 정보 파일 쓰기
+				bwStd.write(studentArray.get(i).toTabbedString());
+				bwStd.newLine();
+
+				// 성적 정보 파일 쓰기
+				ArrayList<Score> score = studentArray.get(i).score;
+				if (!score.isEmpty()) {
+					for (int j = 0; j < score.size(); j++) {
+						bwScore.write(score.get(j).toTabbedString());
+						bwScore.newLine();
+					}
+				}
+
+			}
+			bwStd.close();
+			bwScore.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	
+}

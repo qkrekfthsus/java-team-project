@@ -46,7 +46,7 @@ public class Student {
 		return String.join("\t", toArray);
 	}
 
-	// 출력을 위한 toString(성적 조회)
+	// 출력을 위한 toString(학생 조회)
 	@Override
 	public String toString() {
 		return String.format("%-11d%-5d%-5s%-9s%-17s%-10s", student_id, student_grade, student_name, student_major,

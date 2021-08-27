@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class StudentManagement {
 	static String[] studentInfo = new String[6];
-	static String[] list = {"학번", "학년", "이름", "학과", "전화번호", "학적상태"};
+	static String[] list = { "학번", "학년", "이름", "학과", "전화번호", "학적상태" };
 
 	// 학생 등록 메소드
 	public static void registerStudent(Scanner scanner) {
@@ -16,22 +16,27 @@ public class StudentManagement {
 		registerName(scanner);
 		registerMajor(scanner);
 		registerTel(scanner);
+		while (true) {
+			if (infoQ(scanner)) {
+				break;
+			}
+		}
 
+	}
 
-	}				
-
-	
 	// 학번입력
 	public static void registerId(Scanner scanner) {
-		System.out.println("----------------------------------------------");
-		System.out.println("등록할 학생의 학번을 입력해주세요. (숫자8자리)");
+		System.out.println("------------------------------------------------------------");
+		System.out.println("등록할 학생의 학번을 입력해주세요. (숫자 8자리)");
+		System.out.println("------------------------------------------------------------");
+
 		while (true) {
 			String id = scanner.nextLine();
-			if (StudentVerify.isId(id)) {
+			if (StudentVerify.isId(id) && StudentVerify.isOverlabID(id)) {
 				studentInfo[0] = id;
 				break;
 			} else {
-				System.out.println("학번을 확인 후 다시 입력해주세요. (숫자8자리)");
+				System.out.println("중복된 학번이거나 학번 형식에 맞지 않습니다. 확인 후 다시 입력해주세요. (숫자 8자리)");
 				continue;
 			}
 		}
@@ -40,15 +45,19 @@ public class StudentManagement {
 
 	// 학년입력
 	public static void registerGrade(Scanner scanner) {
-		System.out.println("----------------------------------------------");
-		System.out.println("등록할 학생의 학년을 입력해주세요. (숫자1자리)");
+		System.out.println();
+
+		System.out.println("------------------------------------------------------------");
+		System.out.println("등록할 학생의 학년을 입력해주세요. (숫자 1자리)");
+		System.out.println("------------------------------------------------------------");
+
 		while (true) {
 			String grade = scanner.nextLine();
 			if (StudentVerify.isGrade(grade)) {
 				studentInfo[1] = grade;
 				break;
 			} else {
-				System.out.println("학년을 확인 후 다시 입력해주세요. (숫자1자리)");
+				System.out.println("학년을 확인 후 다시 입력해주세요. (숫자 1자리)");
 				continue;
 			}
 		}
@@ -57,8 +66,12 @@ public class StudentManagement {
 
 	// 이름입력
 	public static void registerName(Scanner scanner) {
-		System.out.println("----------------------------------------------");
+		System.out.println();
+
+		System.out.println("------------------------------------------------------------");
 		System.out.println("등록할 학생의 이름을 입력해주세요.");
+		System.out.println("------------------------------------------------------------");
+
 		while (true) {
 			String name = scanner.nextLine();
 			if (StudentVerify.isName(name)) {
@@ -74,8 +87,12 @@ public class StudentManagement {
 
 	// 학과입력
 	public static void registerMajor(Scanner scanner) {
-		System.out.println("----------------------------------------------");
+		System.out.println();
+
+		System.out.println("------------------------------------------------------------");
 		System.out.println("등록할 학생의 학과를 입력해주세요. (ex. xx학과)");
+		System.out.println("------------------------------------------------------------");
+
 		while (true) {
 			String major = scanner.nextLine();
 			if (StudentVerify.isMajor(major)) {
@@ -91,21 +108,20 @@ public class StudentManagement {
 
 	// 전화번호입력
 	public static void registerTel(Scanner scanner) {
-		System.out.println("----------------------------------------------");
-		System.out.println("등록할 학생의 전화번호를 입력해주세요. (번호만 입력해주세요.)");
+		System.out.println();
+
+		System.out.println("------------------------------------------------------------");
+		System.out.println("등록할 학생의 전화번호를 입력해주세요. (ex. 010-xxxx-xxxx)");
+		System.out.println("------------------------------------------------------------");
+
 		while (true) {
 			String tel = scanner.nextLine();
-			if (StudentVerify.isMob(tel)) {
+			if (StudentVerify.isMob(tel) && StudentVerify.isOverlabTel(tel)) {
 				studentInfo[4] = tel;
 				studentInfo[5] = "재학";
-				while(true) {
-					if(infoQ(scanner)) {
-						break;
-					}
-				}
 				break;
 			} else {
-				System.out.println("전화번호를 확인 후 다시 입력해주세요. (번호만 입력해주세요.)");
+				System.out.println("전화번호를 확인 후 다시 입력해주세요. (ex. 010-xxxx-xxxx)");
 				continue;
 			}
 		}
@@ -114,22 +130,28 @@ public class StudentManagement {
 
 	// 입력한 값이 맞는지 확인
 	public static boolean infoQ(Scanner scanner) {
-		
-		for (int i = 0; i < studentInfo.length; i++) {
-			System.out.print(studentInfo[i] + " ");
-		}
+
+		Student student = new Student(studentInfo);
 		System.out.println();
+		System.out.println("------------------------------------------------------------");
+		System.out.println(student.toString());
+		System.out.println("------------------------------------------------------------");
+
 		System.out.println("등록하실 정보가 맞습니까? (y/n)");
 		if (scanner.nextLine().equals("y")) {
 			// Student 객체 생성하여 ArrayList에 추가
-			Student student = new Student(studentInfo);
 			FileManager.studentArray.add(student);
-			
+
 			// 이후 작업여부 묻는 함수 호출
 			registerQ(scanner);
 			return true;
 		} else {
-			System.out.println("재입력할 항목명을 입력해주세요.");
+			System.out.println();
+
+			System.out.println("------------------------------------------------------------");
+			System.out.println("재입력할 항목명을 입력해주세요.(학번, 학년, 이름, 학과, 전화번호)");
+			System.out.println("------------------------------------------------------------");
+
 			String info = scanner.nextLine();
 			if (info.equals("학번")) {
 				registerId(scanner);
@@ -145,13 +167,14 @@ public class StudentManagement {
 			return false;
 		}
 	}
-	
+
 	// 이후 작업 여부 묻는 함수
 	public static void registerQ(Scanner scanner) {
+		System.out.println();
 
-		System.out.println("==============================================");
+		System.out.println("------------------------------------------------------------");
 		System.out.println("학생 등록이 완료되었습니다. 계속 작업하시겠습니까? (y/n)");
-		System.out.println("==============================================");
+		System.out.println("------------------------------------------------------------");
 
 		if (scanner.nextLine().equals("y")) {
 			// 학생 등록 함수 호출
@@ -161,32 +184,31 @@ public class StudentManagement {
 			System.out.println("학생 등록을 종료하고 메인 메뉴로 돌아갑니다.");
 		}
 
-	}	
-	
+	}
+
 	public static void searchStudent(Scanner scanner) {
 
-		
 		boolean resetSearch = true;
-		while(resetSearch) {
+		while (resetSearch) {
 			System.out.println(" * 학생 정보 검색");
 			System.out.println("----------------------------------------------------------------------");
 			System.out.println(" 검색할 학생에 대한 정보를 띄어쓰기로 구분해서 입력해주세요.(ex. 김철수 컴퓨터공학과 1)");
 			System.out.println(" 정보는 항목별로 하나씩만 입력가능합니다.(항목 : 학번, 학년, 이름, 학과, 전화번호, 학적상태)");
 			System.out.println("----------------------------------------------------------------------");
-			
+
 			ArrayList<Student> result = new ArrayList<>();
 			result.addAll(FileManager.studentArray);
-			
+
 			result = getSearchResult(scanner, true, result);
-			
+
 			boolean moreSearch = true;
-			
-			while(moreSearch && result != null) {
+
+			while (moreSearch && result != null) {
 				System.out.println("----------------------------------------------------------------------");
 				System.out.println(" 상세 검색을 하시겠습니까?(y/n)");
 				System.out.println("----------------------------------------------------------------------");
 				moreSearch = scanner.nextLine().equals("y") ? true : false;
-				if(!moreSearch) {
+				if (!moreSearch) {
 					break;
 				}
 				result = getSearchResult(scanner, false, result);
@@ -199,212 +221,222 @@ public class StudentManagement {
 		}
 		System.out.println("메인 화면으로 돌아갑니다.");
 	}
-	
+
 	// 검색 결과를 출력
 	public static ArrayList<Student> printSearchResult(ArrayList<Student> result, ArrayList<Integer> deleteIndex) {
-		if(result.size() != deleteIndex.size()) {
+		if (result.size() != deleteIndex.size()) {
+			System.out.println();
+
 			System.out.println("----------------------------------------------------------------------");
 			System.out.println(String.format(" %-10s%-5s%-5s%-10s%-15s%-10s ", "학번", "학년", "이름", "학과", "전화번호", "학적상태"));
 			System.out.println("----------------------------------------------------------------------");
 			for (Integer integer : deleteIndex) {
 				result.remove((int) integer);
 			}
-			
+
 			for (Student student : result) {
 				System.out.println(student.toString());
 			}
 			return result;
-			
-		}
-		else {
+
+		} else {
 			System.out.println("검색된 결과가 없습니다.");
 			return null;
 		}
 	}
-	
+
 	// 검색 키워드를 입력 받고, 검색된 결과를 리턴
 	public static ArrayList<Student> getSearchResult(Scanner scanner, boolean isFirst, ArrayList<Student> result) {
 		// 처음 검색인지, 추가 검색인지 확인
-		if(!isFirst) {
+		if (!isFirst) {
+			System.out.println();
+
 			System.out.println("----------------------------------------------------------------------");
 			System.out.println(" 상세 검색할 내용을 입력해주세요.");
 			System.out.println("----------------------------------------------------------------------");
 		}
-		
-		
+
 		// 검색할 키워드 입력 받음
 		String[] searchKeywords = scanner.nextLine().split(" ");
-		
+
 		System.out.println(searchKeywords[0].equals("")); // 검색 키워드 공백 입력 나중에 추가
 		// 삭제할 인덱스 ArrayList
 		ArrayList<Integer> deleteIndex = new ArrayList<>();
-		
+
 		// 전체 학생이 담긴 result 배열을 순회하면서
-		// Student.toString()함수로 출력된 
+		// Student.toString()함수로 출력된
 		for (int i = 0; i < result.size(); i++) {
 			String stringStudentValue = " " + result.get(i).toString() + " ";
 			for (String keyword : searchKeywords) {
-				if(!stringStudentValue.contains(" " + keyword + " ") && !deleteIndex.contains(i)) {
+				if (!stringStudentValue.contains(" " + keyword + " ") && !deleteIndex.contains(i)) {
 					deleteIndex.add(i);
 				}
 			}
 		}
 		Collections.sort(deleteIndex, Collections.reverseOrder());
-		
+
 		return printSearchResult(result, deleteIndex);
-	
+
 	}
-	
-	public static void changeStudent(Scanner scanner){
+
+	// 학생 인적사항 정보 수정
+	public static void changeStudent(Scanner scanner) {
 		String input;
-		
+
 		ArrayList<Student> studentArray = new ArrayList<>();
 		studentArray.addAll(FileManager.studentArray);
 		String[] studentInfoArray = new String[6];
-		
+
 		while (true) {
-			
-	
-			System.out.println("====================================================");
+
+			System.out.println("----------------------------------------------------------------------");
 			System.out.println("인적사항을 변경할 학생의 학번을 입력해주세요.");
-			System.out.println("====================================================");
-			
+			System.out.println("----------------------------------------------------------------------");
+
 			input = scanner.nextLine();
-			
-			try{
+
+			try {
 				Student updateStudent = Student.getStudentFromID(Integer.parseInt(input));
-				if(updateStudent == null){
+				if (updateStudent == null) {
 					System.out.println("존재 하지 않는 학번입니다. 다시 입력해주세요.");
 					continue;
-				}
-				else {
-					studentInfoArray = new String[]{String.valueOf(updateStudent.student_id),String.valueOf(updateStudent.student_grade),updateStudent.student_name,
-							updateStudent.student_major,updateStudent.student_tel,updateStudent.student_state};
-					System.out.println("====================================================");
-					System.out.println(String.format("%-10s%-5s%-5s%-10s%-15s%-10s", "학번", "학년", "이름", "학과", "전화번호", "학적상태"));
+				} else {
+					studentInfoArray = new String[] { String.valueOf(updateStudent.student_id),
+							String.valueOf(updateStudent.student_grade), updateStudent.student_name,
+							updateStudent.student_major, updateStudent.student_tel, updateStudent.student_state };
+
+					System.out.println("----------------------------------------------------------------------");
+					System.out.println(
+							String.format("%-10s%-5s%-5s%-10s%-15s%-10s", "학번", "학년", "이름", "학과", "전화번호", "학적상태"));
 					System.out.println(updateStudent.toString());
+					System.out.println("----------------------------------------------------------------------");
 					System.out.println("인적 사항을 변경 하시겠습니까?(y/n)");
-					System.out.println("====================================================");
+
 					input = scanner.nextLine();
 
 					if (input.equals("y")) {
-						System.out.println("====================================================");
+						System.out.println("----------------------------------------------------------------------");
 						System.out.println("변경할 항목을 입력해주세요. (항목 : 학번, 학년, 이름, 학과, 전화번호, 학적상태)");
-						System.out.println("====================================================");
+						System.out.println("----------------------------------------------------------------------");
 						input = scanner.nextLine();
 						int index = getListIndex(input, list);
-						
+
 						update(scanner, index, studentInfoArray, updateStudent);
-					}
-					else {
-						continue;
+					} else {
+						break;
 					}
 				}
-			}catch(NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				System.out.println("숫자를 입력해주세요.");
 				continue;
 			}
+
+			System.out.println("----------------------------------------------------------------------");
+			System.out.println("추가로 작업하시겠습니까?(y/n)");
+			System.out.println("----------------------------------------------------------------------");
+			input = scanner.nextLine();
+			if (input.equals("y")) {
+				continue;
+			} else {
+				System.out.println("학생 인적사항 수정을 마치고 메인화면으로 돌아갑니다.");
+				break;
+			}
+
 		}
 	}
-	
-	public static int getListIndex(String input,String[] list) {
-		for(int i =0; i< list.length; i++) {
-			if(input.equals(list[i])) {
+
+	public static int getListIndex(String input, String[] list) {
+		for (int i = 0; i < list.length; i++) {
+			if (input.equals(list[i])) {
 				return i;
 			}
 		}
 		return -1;
 	}
-	
+
 	public static void update(Scanner scanner, int index, String[] studentInfoArray, Student student) {
 		String input;
-		if(index == -1) {
+		if (index == -1) {
 			System.out.println("항목이 잘못입력되었습니다.");
-		}
-		
-		else {
-			System.out.println("====================================================");
-			System.out.println("변경할 " +list[index]+"을(를) 입력해주세요. 현재 "+list[index]+"은(는) " +studentInfoArray[index]+"입니다.");
-			System.out.println("====================================================");
-			switch(index) {
-				case 0:
-					System.out.println("학번은 변경할 수 없습니다.");
-					break;
-				case 1:
-					while(true) {
-						input = scanner.nextLine();
-						if(StudentVerify.isGrade(input)) {
-							student.student_grade = Integer.parseInt(input);
-							Print(student);
-							break;
-						}
-						else {
-							System.out.println("학년을 확인 후 다시 입력해주세요. (숫자1자리)");
-						}
+		} else {
+			System.out.println("----------------------------------------------------------------------");
+			System.out.println("변경할 " + list[index] + "을(를) 입력해주세요. 현재 " + list[index] + "은(는) "
+					+ studentInfoArray[index] + "입니다.");
+			System.out.println("----------------------------------------------------------------------");
+			switch (index) {
+			case 0:
+				System.out.println("학번은 변경할 수 없습니다.");
+				break;
+			case 1:
+				while (true) {
+					input = scanner.nextLine();
+					if (StudentVerify.isGrade(input)) {
+						student.student_grade = Integer.parseInt(input);
+						Print(student);
+						break;
+					} else {
+						System.out.println("학년을 확인 후 다시 입력해주세요. (숫자1자리)");
 					}
-					break;
-				case 2:
-					while(true) {
-						input = scanner.nextLine();
-						if(StudentVerify.isName(input)) {
-							student.student_name = input;
-							Print(student);
-							break;
-						}
-						else {
-							System.out.println("이름을 확인 후 다시 입력해주세요.");
-						}
-						
+				}
+				break;
+			case 2:
+				while (true) {
+					input = scanner.nextLine();
+					if (StudentVerify.isName(input)) {
+						student.student_name = input;
+						Print(student);
+						break;
+					} else {
+						System.out.println("이름을 확인 후 다시 입력해주세요.");
 					}
-					break;
-				case 3:
-					while(true) {
-						input = scanner.nextLine();
-						if(StudentVerify.isMajor(input)) {
-							student.student_major = input;
-							Print(student);
-							break;
-						}
-						else {
-							System.out.println("학과를 확인 후 다시 입력해주세요. (ex. xx학과)");
-						}
+
+				}
+				break;
+			case 3:
+				while (true) {
+					input = scanner.nextLine();
+					if (StudentVerify.isMajor(input)) {
+						student.student_major = input;
+						Print(student);
+						break;
+					} else {
+						System.out.println("학과를 확인 후 다시 입력해주세요. (ex. xx학과)");
 					}
-					break;
-				case 4:
-					while(true) {
-						input = scanner.nextLine();
-						if(StudentVerify.isMob(input)) {
-							student.student_tel = input;
-							Print(student);
-							break;
-						}
-						else {
-							System.out.println("전화번호를 확인 후 다시 입력해주세요. (재학, 휴학, 졸업, 자퇴만 입력 가능)");
-						}
+				}
+				break;
+			case 4:
+				while (true) {
+					input = scanner.nextLine();
+					if (StudentVerify.isMob(input)) {
+						student.student_tel = input;
+						Print(student);
+						break;
+					} else {
+						System.out.println("전화번호를 확인 후 다시 입력해주세요. (ex. 010-xxxx-xxxx)");
 					}
-					break;
-				case 5:
-					while(true) {
-						input = scanner.nextLine();
-						if(StudentVerify.isState(input)) {
-							student.student_state = input;
-							Print(student);
-							break;
-						}
-						else {
-							System.out.println("학적상태를 확인 후 다시 입력해주세요. (번호만 입력해주세요.)");
-						}
+				}
+				break;
+			case 5:
+				while (true) {
+					input = scanner.nextLine();
+					if (StudentVerify.isState(input)) {
+						student.student_state = input;
+						Print(student);
+						break;
+					} else {
+						System.out.println("학적상태를 확인 후 다시 입력해주세요. (재학, 휴학, 졸업, 자퇴만 입력 가능)");
 					}
-					break;
+				}
+				break;
 			}
 		}
 	}
-	
+
 	public static void Print(Student student) {
-		System.out.println("====================================================");
+		System.out.println("----------------------------------------------------------------------");
 		System.out.println(String.format("%-10s%-5s%-5s%-10s%-15s%-10s", "학번", "학년", "이름", "학과", "전화번호", "학적상태"));
 		System.out.println(student.toString());
+		System.out.println("----------------------------------------------------------------------");
 		System.out.println("변경되었습니다.");
-		System.out.println("====================================================");
 	}
 }

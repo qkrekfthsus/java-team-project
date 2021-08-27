@@ -1,74 +1,85 @@
 package student;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class FileManager {
 	public static ArrayList<Student> studentArray = new ArrayList<>();
 
-	public static boolean loadStudentFile() {
-		// 학생 정보 파일들을 불러와서 라인마다 Student 객체 생성
-		// studentArray에 추가
+	// StudentData.txt 불러오기
+	public static void loadStudentFile() {
 		try {
-			System.out.println("학생 정보 파일을 불러오는 중입니다.");
-			// FileReader와 BufferedReader로 StudentData 파일 읽어오기
 			BufferedReader reader = new BufferedReader(new FileReader("StudentData.txt"));
 			String line = null;
-
-			// 라인별로 읽어와서 studentInfo에 탭 기준으로 split
+			
 			while ((line = reader.readLine()) != null) {
 				String[] studentInfo = line.split("\t");
-
-				// student객체 생성후 파라미터값으로 받은 studentInfo를 studentArray에 추가
 				Student student = new Student(studentInfo);
 				studentArray.add(student);
 			}
-			// reader닫기
+			
 			reader.close();
-			System.out.println("학생 정보 파일을 불러오는데 성공했습니다.");
-
-			return true;
 		} catch (Exception e) {
-			System.out.println("학생 정보 파일을 불러오는데 실패하였습니다.");
 			e.printStackTrace();
-
-			return false;
 		}
 	}
 
+	// ScoreData.txt 불러오기
 	public static void loadScoreFile() {
-		// 성적 파일 불러온 뒤, scoreArray에 추가
 		try {
-			System.out.println("성적 정보 파일을 불러오는 중입니다.");
-
 			BufferedReader reader = new BufferedReader(new FileReader("ScoreData.txt"));
 			String line = null;
-
-			// 라인별로 읽어와서 studentInfo에 탭 기준으로 split
+			
 			while ((line = reader.readLine()) != null) {
 				String[] scoreInfo = line.split("\t");
-
 				Score score = new Score(scoreInfo);
-
-				for (Student student : studentArray) {
-					if (student.student_id == score.student_id) {
-						student.score.add(score);
-					}
-				}
+				// Student 객체 내의 성적 ArrayList에 데이터 추가
+				Student.loadScore(score);
 			}
+			
 			reader.close();
-			System.out.println("성적 정보 파일을 불러오는데 성공했습니다.");
 		} catch (Exception e) {
-			System.out.println("학생 정보 파일을 불러오는데 실패했습니다.");
-
 			e.printStackTrace();
 		}
 
 	}
 
+	// 프로그램이 종료될 때 파일 저장하기
 	public static void saveFiles() {
+		try {
+			// StudentData
+			FileWriter saveStd = new FileWriter("StudentData.txt", false);
+			BufferedWriter bwStd = new BufferedWriter(saveStd);
+			
+			// ScoreData
+			FileWriter saveScore = new FileWriter("ScoreData.txt", false);
+			BufferedWriter bwScore = new BufferedWriter(saveScore);
 
+			for (int i = 0; i < studentArray.size(); i++) {
+				// 학생 정보 파일 쓰기
+				bwStd.write(studentArray.get(i).toTabbedString());
+				bwStd.newLine();
+
+				// 성적 정보 파일 쓰기
+				ArrayList<Score> score = studentArray.get(i).score;
+				if (!score.isEmpty()) {
+					for (int j = 0; j < score.size(); j++) {
+						bwScore.write(score.get(j).toTabbedString());
+						bwScore.newLine();
+					}
+				}
+
+			}
+			bwStd.close();
+			bwScore.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
+	
 }

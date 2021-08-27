@@ -2,10 +2,10 @@ package student;
 
 import java.util.regex.Pattern;
 
+// 유효성 검사 클래스
 public class StudentVerify {
 	public static String[] stateArray = { "재학", "졸업", "휴학", "자퇴" };
-
-	// 유효성검사
+	
 	public static boolean isId(String str) {
 		return Pattern.matches("^\\d{8}$", str);
 	}
@@ -35,13 +35,15 @@ public class StudentVerify {
 		return false;
 	}
 
+	// 학번 중복 체크
 	public static boolean isOverlabID(String str) {
 		if (Student.getStudentFromID(Integer.parseInt(str)) != null) {
 			return false;
 		}
 		return true;
 	}
-
+	
+	// 전화 번호 중복 체크
 	public static boolean isOverlabTel(String str) {
 		if (Student.getStudentFromTel(str) != null) {
 			return false;

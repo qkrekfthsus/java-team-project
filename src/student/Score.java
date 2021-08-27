@@ -25,7 +25,7 @@ public class Score {
 		return String.format("%-11d%-8s%-15s%-5s%-5s%-3s%-10s", student_id, subject_code, subject_name, type, professor,
 				score, reason);
 	}
-	
+
 	public String getCodeAndScore() {
 		return this.subject_code + "\t" + this.score;
 	}

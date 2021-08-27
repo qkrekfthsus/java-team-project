@@ -37,7 +37,7 @@ public class ScoreManagement {
 	public static void readScore(Scanner scanner) {
 		boolean restart = true;
 		while (restart) {
-			
+
 			try {
 				System.out.println("------------------------------------------------------------");
 				System.out.println("성적을 조회할 학생의 학번을 입력해주세요.");
@@ -89,7 +89,7 @@ public class ScoreManagement {
 	public static void changeScore(Scanner scanner) {
 		Student changeScoreStudent;
 		String input;
-		
+
 		while (true) {
 			try {
 				System.out.println("------------------------------------------------------------");
@@ -104,7 +104,7 @@ public class ScoreManagement {
 					System.out.println("------------------------------------------------------------");
 					continue;
 				}
-				
+
 				System.out.println("------------------------------------------------------------");
 				System.out.println("성적을 수정할 과목코드를 입력해주세요. (처음으로 돌아가기(n))");
 				System.out.println("------------------------------------------------------------");
@@ -165,6 +165,5 @@ public class ScoreManagement {
 		}
 
 	}
-
 
 }

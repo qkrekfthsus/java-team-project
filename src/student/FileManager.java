@@ -48,9 +48,9 @@ public class FileManager {
 			// 라인별로 읽어와서 studentInfo에 탭 기준으로 split
 			while ((line = reader.readLine()) != null) {
 				String[] scoreInfo = line.split("\t");
-				
+
 				Score score = new Score(scoreInfo);
-				
+
 				for (Student student : studentArray) {
 					if (student.student_id == score.student_id) {
 						student.score.add(score);
@@ -69,8 +69,6 @@ public class FileManager {
 
 	public static void saveFiles() {
 
-
 	}
-
 
 }

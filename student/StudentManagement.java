@@ -26,7 +26,7 @@ public class StudentManagement {
 		System.out.println("등록할 학생의 학번을 입력해주세요. (숫자8자리)");
 		while (true) {
 			String id = sc.nextLine();
-			if (StudentVerify.isId(id)) {
+			if (StudentVerify.isId(id)&&StudentVerify.isOverlabID(id)) {
 				studentInfo[0] = id;
 				break;
 			} else {
@@ -91,10 +91,10 @@ public class StudentManagement {
 	// 전화번호입력
 	public static void registerTel() {
 		System.out.println("----------------------------------------------");
-		System.out.println("등록할 학생의 전화번호를 입력해주세요. (번호만 입력해주세요.)");
+		System.out.println("등록할 학생의 전화번호를 입력해주세요. (ex. 010-XXXX-XXXX)");
 		while (true) {
 			String tel = sc.nextLine();
-			if (StudentVerify.isMob(tel)) {
+			if (StudentVerify.isMob(tel)&&StudentVerify.isOverlabTel(tel)) {
 				studentInfo[4] = tel;
 				studentInfo[5] = "재학";
 				while(true) {

@@ -29,7 +29,19 @@ public class ScoreManagement {
                   System.out.println("====================================================");
                   continue;
                }
+               //입력된 학번의 수강과목 출력
+               System.out.println("====================================================");
+               System.out.println(String.format("%-10s%-10s%-9s%-5s%-5s%-5s", "과목코드", "수강과목", "강사이름", "구분", "성적","변경사유"));
+               for(int i = 0; i < updateScore.score.size(); i++) {
+                   if(IDinput.equals(String.valueOf(updateScore.score.get(i).student_id))) {            	                  	   
+                	   System.out.println(String.format("%-10s%-10s%-9s%-5s%-5s%-5s", updateScore.score.get(i).subject_code, 
+                			   updateScore.score.get(i).subject_name, updateScore.score.get(i).type, updateScore.score.get(i).professor,
+                			   updateScore.score.get(i).grade , updateScore.score.get(i).reason));  	  
+                   }
+                }
                
+               
+               System.out.println("====================================================");
                
                System.out.println("====================================================");
                System.out.println("성적을 수정할 과목코드를 입력해주세요. (처음으로 돌아가기(n))");
@@ -69,7 +81,6 @@ public class ScoreManagement {
                       input = scanner.nextLine();
                       update.grade = input;
                      
-                      
                       System.out.println("====================================================");
                       System.out.println("변경사유를 입력해주세요");
                       System.out.println("====================================================");
@@ -125,5 +136,7 @@ public class ScoreManagement {
       System.out.println(updateScore.toString());
       System.out.println("====================================================");
    }
+   
+   
    
 }

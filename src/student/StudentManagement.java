@@ -82,7 +82,12 @@ public class StudentManagement {
 						}
 					}
 					else {
-						continue;
+						try {
+							Menu.selectMenu();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
 			}catch(NumberFormatException e) {

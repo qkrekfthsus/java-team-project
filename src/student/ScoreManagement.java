@@ -50,9 +50,9 @@ public class ScoreManagement {
 		boolean restart = true;
 		while(restart) {
 			try {
-				System.out.println("---------------------------------------------------");
+				System.out.println("------------------------------------------------------------");
 				System.out.println("성적을 조회할 학생의 학번을 입력해주세요.");
-				System.out.println("---------------------------------------------------");
+				System.out.println("------------------------------------------------------------");
 				
 				int student_id = Integer.parseInt(scanner.nextLine());
 				

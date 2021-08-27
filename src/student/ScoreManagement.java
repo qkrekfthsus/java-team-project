@@ -36,7 +36,7 @@ public class ScoreManagement {
                System.out.println("====================================================");
                String Code = scanner.nextLine();
                if(Code.equals("n")) {
-                  //StudentManagement.gradeManagement();
+                  StudentManagement.gradeManagement();
                   break;
                }
                else {
@@ -82,8 +82,15 @@ public class ScoreManagement {
                       System.out.println("수정되었습니다.");
                       System.out.println("====================================================");
                       
-                      input = scanner.nextLine();
                       
+                      System.out.println("추가로 수정하시겠습니까?(y/n)");
+                      input = scanner.nextLine();
+                      if(input.equals("y")) {
+                    	  ScoreManagement.ChangeScore();
+                      }
+                      else {
+                    	  StudentManagement.gradeManagement();
+                      }
                    }
                }
             

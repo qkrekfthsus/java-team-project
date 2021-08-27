@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class FileManager {
 	public static ArrayList<Student> studentArray = new ArrayList<>();
-
+	public static ArrayList<Subject> subjectArray = new ArrayList<>();
 	// StudentData.txt 불러오기
 	public static void loadStudentFile() {
 		try {
@@ -37,6 +37,24 @@ public class FileManager {
 			while ((line = reader.readLine()) != null) {
 				String[] scoreInfo = line.split("\t");
 				Score score = new Score(scoreInfo);
+				Subject subject = new Subject(scoreInfo[1], scoreInfo[2], scoreInfo[3], scoreInfo[4]);
+				
+				if(subjectArray.isEmpty()) {
+					subjectArray.add(subject);
+				}
+				else {
+					boolean subjectInclude = false;
+					for(int i = 0; i < subjectArray.size(); i++) {
+						subjectInclude = Subject.compare(subjectArray.get(i), subject);
+						if(subjectInclude) {
+							break;
+						}
+					}
+					if(!subjectInclude) {
+						subjectArray.add(subject);
+					}
+				}
+				
 				// Student 객체 내의 성적 ArrayList에 데이터 추가
 				Student.loadScore(score);
 			}

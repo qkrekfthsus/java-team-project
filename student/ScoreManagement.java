@@ -47,7 +47,7 @@ public class ScoreManagement {
 					String code = scanner.nextLine();
 					
 					if (!student.score.isEmpty()) {
-						String.format("%-10s%-7s%-15s%-5s%-5s%-3s%-10s");
+						String.format("%-11s%-7s%-15s%-5s%-5s%-3s%-10s");
 						for (Score inScore : student.score) {
 							inScore.toString().contains(code);
 						}System.out.println("성적이 이미 입력되어 있습니다.");

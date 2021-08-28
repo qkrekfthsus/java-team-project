@@ -38,23 +38,29 @@ public class ScoreManagement {
 				System.out.println("------------------------------------------------------------");
 
 				int student_id = Integer.parseInt(scanner.nextLine());
-
-				Student studentScore = Student.getStudentFromID(student_id);
-
-				if (studentScore != null) {
-					if (!studentScore.score.isEmpty()) {
-						System.out.println();
-						System.out.println("----------------------------------------------------------------------");
-						System.out.println(String.format("%-10s%-7s%-15s%-5s%-5s%-3s%-10s", "학번", "과목 코드", "과목명", "구분",
-								"담당교수", "성적", "변동 사유"));
-						System.out.println("----------------------------------------------------------------------");
-
-						for (Score grade : studentScore.score) {
-							System.out.println(grade.toString());
-
-						}
+				Student student = Student.getStudentFromID(student_id);
+				
+				if (student != null) {
+					
+					System.out.println("------------------------------------------------------------");
+					System.out.println("성적을 입력할 과목 코드를 입력해주세요.");
+					String code = scanner.nextLine();
+					
+					if (!student.score.isEmpty()) {
+						String.format("%-10s%-7s%-15s%-5s%-5s%-3s%-10s");
+						for (Score inScore : student.score) {
+							inScore.toString().contains(code);
+						}System.out.println("성적이 이미 입력되어 있습니다.");
 					} else {
-						System.out.println("조회할 성적이 없습니다.");
+						System.out.println("해당 과목의 성적을 입력해주세요.");
+						String score = scanner.nextLine();
+						
+						// 수정할 수 있는 성적들의 목록 출력
+						for (int i = 0; i < student.score.size(); i++) {
+							System.out.println(student.score.get(i).getScoreWithoutID());
+						}
+						
+						//student.score = score;
 					}
 				} else {
 					System.out.println("해당 학생이 존재하지 않습니다.");

@@ -25,7 +25,7 @@ public class Subject {
 	// 과목코드를 통해 전체 Subject ArrayList에서 해당 과목코드를 가진 Subject 객체를 리턴하는 메소드
 	public static Subject getFromcode(String subject_code) {
 		for (Subject subject : FileManager.subjectArray) {
-			if (subject.subject_code == subject_code) {
+			if (subject.subject_code.equals(subject_code)) {
 				return subject;
 			}
 		}

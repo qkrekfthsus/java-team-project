@@ -35,4 +35,5 @@ public class Score {
 				score, reason);
 	}
 
+
 }

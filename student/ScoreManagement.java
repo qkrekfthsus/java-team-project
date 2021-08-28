@@ -1,5 +1,6 @@
 package student;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ScoreManagement {
@@ -31,7 +32,11 @@ public class ScoreManagement {
 
 	public static void registerScore(Scanner scanner) {
 
-		while (true) {
+		String[] studentScoreInfo = new String[7];
+		ArrayList<Score> score = new ArrayList<>();
+
+		boolean restart = true;
+		while (restart) {
 			try {
 				System.out.println("------------------------------------------------------------");
 				System.out.println("성적을 입력할 학생의 학번을 입력해주세요.");
@@ -39,32 +44,55 @@ public class ScoreManagement {
 
 				int student_id = Integer.parseInt(scanner.nextLine());
 				Student student = Student.getStudentFromID(student_id);
-				
+
 				if (student != null) {
-					
+
 					System.out.println("------------------------------------------------------------");
 					System.out.println("성적을 입력할 과목 코드를 입력해주세요.");
 					String code = scanner.nextLine();
+					//과목정보 받아오는게 안됨
+					Subject subject = Subject.getFromcode(code);
+					System.out.println(subject.toString());
 					
-					if (!student.score.isEmpty()) {
-						String.format("%-11s%-7s%-15s%-5s%-5s%-3s%-10s");
+					//if (subject != null) {
+						
+						String alreadyin = "";
 						for (Score inScore : student.score) {
-							inScore.toString().contains(code);
-						}System.out.println("성적이 이미 입력되어 있습니다.");
-					} else {
-						System.out.println("해당 과목의 성적을 입력해주세요.");
-						String score = scanner.nextLine();
-						
-						// 수정할 수 있는 성적들의 목록 출력
-						for (int i = 0; i < student.score.size(); i++) {
-							System.out.println(student.score.get(i).getScoreWithoutID());
+							alreadyin += inScore.toString();
 						}
-						
-						//student.score = score;
-					}
-				} else {
+						if (alreadyin.contains(code) == true) {
+							System.out.println("성적이 이미 입력되어 있어 이전 메뉴로 돌아갑니다.");
+							break;
+						} else {
+							System.out.println("해당 과목의 성적을 입력해주세요.");
+							String getscore = scanner.nextLine();
+
+							String[] subinfo = subject.toString().split("\t");
+							studentScoreInfo[0] = Integer.toString(student_id);
+							for (int i = 1; i < subinfo.length; i++) {
+								studentScoreInfo[i] = subinfo[i];
+							}
+							studentScoreInfo[5] = getscore;
+							studentScoreInfo[6] = "없음";
+
+							Score updatescore = new Score(studentScoreInfo);
+							score.add(updatescore);
+						}
+					}//else {
+						//System.out.println("해당 과목코드는 존재하지 않습니다. 확인 후 다시 입력해주세요.");
+						//continue;
+					//}
+				//}
+
+				else {
 					System.out.println("해당 학생이 존재하지 않습니다.");
 				}
+
+				System.out.println("----------------------------------------------------------------------");
+				System.out.println("성적 등록을 계속 하시겠습니까?(y/n)");
+				System.out.println("----------------------------------------------------------------------");
+
+				restart = scanner.nextLine().equals("y") ? true : false;
 			} catch (NumberFormatException e) {
 				System.out.println("학번을 확인후 다시 입력해주세요.");
 			}

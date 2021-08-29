@@ -1,191 +1,196 @@
 package student;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
 
 public class StudentManagement {
-	static String[] studentInfo = new String[6];
 	static String[] list = { "학번", "학년", "이름", "학과", "전화번호", "학적상태" };
 
 	// 학생 등록 메소드
 	public static void registerStudent(Scanner scanner) {
+		String[] studentInfo = new String[6];
+
+		int index = -1;
+		boolean modify = false;
 		while(true) {
-			System.out.println();
-			System.out.println("*새로운 학생 정보를 등록합니다. (상태 기본값은 재학으로 등록됨)");
-			registerId(scanner);
-			registerGrade(scanner);
-			registerName(scanner);
-			registerMajor(scanner);
-			registerTel(scanner);
-			// 입력한 정보가 맞는지 확인
-			while (true) {
-				if (infoQ(scanner)) {
+			switch(index) {
+			case -1:
+				System.out.println();
+				System.out.println("*새로운 학생 정보를 등록합니다. (상태 기본값은 재학으로 등록됨)");
+				System.out.println("정보 입력 도중 q 입력으로 이전 메뉴로 돌아갈 수 있습니다.");
+				
+			case 0:
+				System.out.println("------------------------------------------------------------");
+				System.out.println("등록할 학생의 학번을 입력해주세요. (숫자 8자리)");
+				System.out.println("------------------------------------------------------------");
+
+				while (true) {
+					String id = scanner.nextLine();
+					if(id.equals("q")) {
+						System.out.println("메인 메뉴로 돌아갑니다.");
+						return;
+					}
+					// 유효성 검사 및 중복 체크
+					if (InformationVerify.isId(id) && InformationVerify.isOverlabID(id)) {
+						studentInfo[0] = id;
+						break;
+					} else {
+						System.out.println("중복된 학번이거나 학번 형식에 맞지 않습니다. 확인 후 다시 입력해주세요. (숫자 8자리)");
+					}
+				}
+				if(modify) {
+					index = 5;
 					break;
 				}
-			}
+				
+			case 1:
+				System.out.println("------------------------------------------------------------");
+				System.out.println("등록할 학생의 학년을 입력해주세요. (숫자 1자리)");
+				System.out.println("------------------------------------------------------------");
+
+				while (true) {
+					String grade = scanner.nextLine();
+					if(grade.equals("q")) {
+						System.out.println("메인 메뉴로 돌아갑니다.");
+						return;
+					}
+					// 유효성 검사
+					if (InformationVerify.isGrade(grade)) {
+						studentInfo[1] = grade;
+						break;
+					} else {
+						System.out.println("학년을 확인 후 다시 입력해주세요. (1~4 사이의 숫자 1자리)");
+					}
+				}
+				if(modify) {
+					index = 5;
+					break;
+				}
+				
+			case 2:
+				System.out.println("------------------------------------------------------------");
+				System.out.println("등록할 학생의 이름을 입력해주세요.");
+				System.out.println("------------------------------------------------------------");
+
+				while (true) {
+					String name = scanner.nextLine();
+					if(name.equals("q")) {
+						System.out.println("메인 메뉴로 돌아갑니다.");
+						return;
+					}
+					// 유효성 검사
+					if (InformationVerify.isName(name)) {
+						studentInfo[2] = name;
+						break;
+					} else {
+						System.out.println("이름을 확인 후 다시 입력해주세요.");
+					}
+				}
+				if(modify) {
+					index = 5;
+					break;
+				}
+				
+			case 3:
+				System.out.println("------------------------------------------------------------");
+				System.out.println("등록할 학생의 학과를 입력해주세요. (ex. xx학과)");
+				System.out.println("------------------------------------------------------------");
+
+				while (true) {
+					String major = scanner.nextLine();
+					if(major.equals("q")) {
+						System.out.println("메인 메뉴로 돌아갑니다.");
+						return;
+					}
+					// 유효성 검사
+					if (InformationVerify.isMajor(major)) {
+						studentInfo[3] = major;
+						break;
+					} else {
+						System.out.println("학과를 확인 후 다시 입력해주세요. (ex. xx학과)");
+					}
+				}
+				if(modify) {
+					index = 5;
+					break;
+				}
+				
+			case 4:
+				System.out.println("------------------------------------------------------------");
+				System.out.println("등록할 학생의 전화번호를 입력해주세요. (ex. 010-xxxx-xxxx)");
+				System.out.println("------------------------------------------------------------");
+
+				while (true) {
+					String tel = scanner.nextLine();
+					if(tel.equals("q")) {
+						System.out.println("메인 메뉴로 돌아갑니다.");
+						return;
+					}
+					// 유효성 검사 및 중복 체크
+					if (InformationVerify.isMob(tel) && InformationVerify.isOverlabTel(tel)) {
+						studentInfo[4] = tel;
+						studentInfo[5] = "재학";
+						break;
+					} else {
+						System.out.println("전화번호를 확인 후 다시 입력해주세요. (ex. 010-xxxx-xxxx)");
+					}
+				}
+				
+			case 5:	
+				// 입력한 정보가 맞는지 확인	
+				Student student = new Student(studentInfo);
+				System.out.println("------------------------------------------------------------");
+				System.out.println(student.toString());
+				System.out.println("------------------------------------------------------------");
+				System.out.println("등록하실 정보가 맞습니까? (y/n)");
+				
+				if (scanner.nextLine().equals("y")) {
+					// 학생 ArrayList에 추가
+					FileManager.studentArray.add(student);
+				} else {
+					// 항목을 입력해서 잘못 입력된 값 수정
+					System.out.println("------------------------------------------------------------");
+					System.out.println("재입력할 항목명을 입력해주세요. (학번, 학년, 이름, 학과, 전화번호)");
+					System.out.println("------------------------------------------------------------");
+					
+					while(true) {
+						String info = scanner.nextLine();
+						index = Arrays.asList(list).indexOf(info);
+						if(index != -1 && index != 5) {
+							break;
+						}
+						else {
+							System.out.println("------------------------------------------------------------");
+							System.out.println("재입력할 항목명을 올바르게 입력해주세요. (학번, 학년, 이름, 학과, 전화번호)");
+							System.out.println("------------------------------------------------------------");
+						}
+					}
+					modify = true;
+					break;
+				}
+				
+			case 6:
+				// 추가 작업할지 여부
+				System.out.println("------------------------------------------------------------");
+				System.out.println("학생 등록이 완료되었습니다. 계속 작업하시겠습니까? (y/n)");
+				System.out.println("------------------------------------------------------------");
+	
+				if (!scanner.nextLine().equals("y")) {
+					System.out.println("학생 등록을 종료하고 메인 메뉴로 돌아갑니다.");
+					return;
+				}
+				index = 0;
+				modify = false;
 			
-			// 추가 작업할지 여부
-			System.out.println("------------------------------------------------------------");
-			System.out.println("학생 등록이 완료되었습니다. 계속 작업하시겠습니까? (y/n)");
-			System.out.println("------------------------------------------------------------");
-
-			if (!scanner.nextLine().equals("y")) {
-				System.out.println("학생 등록을 종료하고 메인 메뉴로 돌아갑니다.");
-				break;
+			default:
+				System.out.println("비정상 오류로 인해 메인 메뉴로 돌아갑니다.");
+				return;
 			}
 
+
 		}
-	}
-
-	// 학번 입력
-	public static void registerId(Scanner scanner) {
-		System.out.println("------------------------------------------------------------");
-		System.out.println("등록할 학생의 학번을 입력해주세요. (숫자 8자리)");
-		System.out.println("------------------------------------------------------------");
-
-		while (true) {
-			String id = scanner.nextLine();
-			// 유효성 검사 및 중복 체크
-			if (InformationVerify.isId(id) && InformationVerify.isOverlabID(id)) {
-				studentInfo[0] = id;
-				break;
-			} else {
-				System.out.println("중복된 학번이거나 학번 형식에 맞지 않습니다. 확인 후 다시 입력해주세요. (숫자 8자리)");
-				continue;
-			}
-		}
-
-	}
-
-	// 학년 입력
-	public static void registerGrade(Scanner scanner) {
-		System.out.println("------------------------------------------------------------");
-		System.out.println("등록할 학생의 학년을 입력해주세요. (숫자 1자리)");
-		System.out.println("------------------------------------------------------------");
-
-		while (true) {
-			String grade = scanner.nextLine();
-			// 유효성 검사
-			if (InformationVerify.isGrade(grade)) {
-				studentInfo[1] = grade;
-				break;
-			} else {
-				System.out.println("학년을 확인 후 다시 입력해주세요. (1~4 사이의 숫자 1자리)");
-			}
-		}
-
-	}
-
-	// 이름 입력
-	public static void registerName(Scanner scanner) {
-		System.out.println("------------------------------------------------------------");
-		System.out.println("등록할 학생의 이름을 입력해주세요.");
-		System.out.println("------------------------------------------------------------");
-
-		while (true) {
-			String name = scanner.nextLine();
-			// 유효성 검사
-			if (InformationVerify.isName(name)) {
-				studentInfo[2] = name;
-				break;
-			} else {
-				System.out.println("이름을 확인 후 다시 입력해주세요.");
-			}
-		}
-
-	}
-
-	// 학과 입력
-	public static void registerMajor(Scanner scanner) {
-		System.out.println("------------------------------------------------------------");
-		System.out.println("등록할 학생의 학과를 입력해주세요. (ex. xx학과)");
-		System.out.println("------------------------------------------------------------");
-
-		while (true) {
-			String major = scanner.nextLine();
-			// 유효성 검사
-			if (InformationVerify.isMajor(major)) {
-				studentInfo[3] = major;
-				break;
-			} else {
-				System.out.println("학과를 확인 후 다시 입력해주세요. (ex. xx학과)");
-			}
-		}
-
-	}
-
-	// 전화 번호 입력
-	public static void registerTel(Scanner scanner) {
-		System.out.println("------------------------------------------------------------");
-		System.out.println("등록할 학생의 전화번호를 입력해주세요. (ex. 010-xxxx-xxxx)");
-		System.out.println("------------------------------------------------------------");
-
-		while (true) {
-			String tel = scanner.nextLine();
-			// 유효성 검사 및 중복 체크
-			if (InformationVerify.isMob(tel) && InformationVerify.isOverlabTel(tel)) {
-				studentInfo[4] = tel;
-				studentInfo[5] = "재학";
-				break;
-			} else {
-				System.out.println("전화번호를 확인 후 다시 입력해주세요. (ex. 010-xxxx-xxxx)");
-			}
-		}
-
-	}
-
-	// 입력한 값이 맞는지 확인
-	public static boolean infoQ(Scanner scanner) {
-
-		// 입력한 값들을 출력
-		Student student = new Student(studentInfo);
-		System.out.println("------------------------------------------------------------");
-		System.out.println(student.toString());
-		System.out.println("------------------------------------------------------------");
-		System.out.println("등록하실 정보가 맞습니까? (y/n)");
-		
-		if (scanner.nextLine().equals("y")) {
-			// 학생 ArrayList에 추가
-			FileManager.studentArray.add(student);
-			return true;
-			
-		} else {
-			// 항목을 입력해서 잘못 입력된 값 수정
-			System.out.println("------------------------------------------------------------");
-			System.out.println("재입력할 항목명을 입력해주세요.(학번, 학년, 이름, 학과, 전화번호)");
-			System.out.println("------------------------------------------------------------");
-			
-			String info = scanner.nextLine();
-			if (info.equals("학번")) {
-				registerId(scanner);
-			} else if (info.equals("학년")) {
-				registerGrade(scanner);
-			} else if (info.equals("이름")) {
-				registerName(scanner);
-			} else if (info.equals("학과")) {
-				registerMajor(scanner);
-			} else if (info.equals("전화번호")) {
-				registerTel(scanner);
-			}
-			return false;
-		}
-	}
-
-	// 이후 작업 여부 묻는 함수
-	public static void registerQ(Scanner scanner) {
-		System.out.println("------------------------------------------------------------");
-		System.out.println("학생 등록이 완료되었습니다. 계속 작업하시겠습니까? (y/n)");
-		System.out.println("------------------------------------------------------------");
-
-		if (scanner.nextLine().equals("y")) {
-			// 학생 등록 함수 호출
-			registerStudent(scanner);
-		} else {
-			// 메인메뉴로 돌아가기
-			System.out.println("학생 등록을 종료하고 메인 메뉴로 돌아갑니다.");
-		}
-
 	}
 
 	// 학생 정보 검색

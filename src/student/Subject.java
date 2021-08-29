@@ -1,6 +1,7 @@
 package student;
 
 public class Subject {
+	// 파일 불러올 때 과목에 대한 정보들을 클래스로 저장
 	String subject_code, subject_name, professor, type;
 
 	public Subject(String subject_code, String subject_name, String professor, String type) {
@@ -9,6 +10,7 @@ public class Subject {
 		this.professor = professor;
 		this.type = type;
 	}
+	
 	
 	@Override
 	public String toString() {
@@ -21,6 +23,17 @@ public class Subject {
 		}
 		return false;
 	}
+	
+	// 과목코드를 통해 전체 Subject ArrayList에서 해당 과목코드를 가진 Subject 객체를 리턴하는 메소드
+	public static Subject getFromcode(String subject_code) {
+		for (Subject subject : FileManager.subjectArray) {
+			if (subject.subject_code.equals(subject_code)) {
+				return subject;
+			}
+		}
+		return null;
+	}
+
 	
 
 }

@@ -3,8 +3,9 @@ package student;
 import java.util.regex.Pattern;
 
 // À¯È¿¼º °Ë»ç Å¬·¡½º
-public class StudentVerify {
+public class InformationVerify {
 	public static String[] stateArray = { "ÀçÇÐ", "Á¹¾÷", "ÈÞÇÐ", "ÀÚÅð" };
+	public static String[] scoreArray = {"A", "B", "C", "F"};
 	
 	public static boolean isId(String str) {
 		return Pattern.matches("^\\d{8}$", str);
@@ -15,7 +16,7 @@ public class StudentVerify {
 	}
 
 	public static boolean isName(String str) {
-		return Pattern.matches("^[a-zA-Z]|[¤¡-¤¾°¡-ÆR]*$", str);
+		return Pattern.matches("^[a-zA-Z]*$|^[¤¡-¤¾°¡-ÆR]*$", str);
 	}
 
 	public static boolean isMajor(String str) {
@@ -29,6 +30,15 @@ public class StudentVerify {
 	public static boolean isState(String str) {
 		for (String state : stateArray) {
 			if (str.equals(state)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isScore(String str) {
+		for (String score : scoreArray) {
+			if (str.equals(score)) {
 				return true;
 			}
 		}

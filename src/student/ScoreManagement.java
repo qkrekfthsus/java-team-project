@@ -8,38 +8,141 @@ public class ScoreManagement {
 	public static void scoreMenu(Scanner scanner) {
 
 		while (true) {
-			System.out.println("------------------------------------------------------------");
-			System.out.println("원하는 기능을 선택해주세요.( 1~4 번호를 입력해주세요.)");
-			System.out.println("1.성적 입력  2.성적 조회  3.성적 수정   4.이전메뉴");
-			System.out.println("------------------------------------------------------------");
+			try {
+				System.out.println("------------------------------------------------------------");
+				System.out.println("원하는 기능을 선택해주세요.( 1~4 번호를 입력해주세요.)");
+				System.out.println("1.성적 입력  2.성적 조회  3.성적 수정   4.이전메뉴");
+				System.out.println("------------------------------------------------------------");
 
-			int scoreMenuNum = Integer.parseInt(scanner.nextLine());
+				int scoreMenuNum = Integer.parseInt(scanner.nextLine());
 
-			if (scoreMenuNum == 1) {
-				registerScore();
-			} else if (scoreMenuNum == 2) {
-				readScore(scanner);
-			} else if (scoreMenuNum == 3) {
-				changeScore(scanner);
-			} else if (scoreMenuNum == 4) {
-				break;
-			} else {
-				System.out.println("다시 입력해주세요.");
+				if (scoreMenuNum == 1) {
+					registerScore(scanner);
+				} else if (scoreMenuNum == 2) {
+					readScore(scanner);
+				} else if (scoreMenuNum == 3) {
+					changeScore(scanner);
+				} else if (scoreMenuNum == 4) {
+					break;
+				} else {
+					System.out.println("다시 입력해주세요.");
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("값을 잘못 입력하셨습니다. 1~4 사이의 숫자를 입력해주세요.");
 			}
 		}
+
 	}
 
 	// 학생 성적 등록
-	public static void registerScore() {
-		System.out.println("성적을 입력할 학생의 학번을 입력해주세요.");
-		System.out.println("----------------------------------------------------------------------");
-		System.out.println("1.학생 등록  2.학생 정보 조회  3.학생 정보 수정 4.성적 관리  5.종료");
+	public static void registerScore(Scanner scanner) {
+
+		String[] studentScoreInfo = new String[7];
+
+		boolean restart = true;
+		while (restart) {
+			try {
+				System.out.println("------------------------------------------------------------");
+				System.out.println("성적을 입력할 학생의 학번을 입력해주세요.");
+				System.out.println("------------------------------------------------------------");
+
+				int student_id = Integer.parseInt(scanner.nextLine());
+				Student student = Student.getStudentFromID(student_id);
+				
+				// 입력된 학번의 학생이 존재하는 경우 
+				if (student != null) {
+
+					System.out.println("------------------------------------------------------------");
+					System.out.println("성적을 입력할 과목 코드를 입력해주세요.");
+					System.out.println("------------------------------------------------------------");
+
+					String code = scanner.nextLine();
+					Subject subject = Subject.getFromcode(code);
+					
+					// 입력된 과목코드가 과목 목록에 존재하는 경우
+					if (subject != null) {
+						boolean alreadyin = false;
+						//String alreadyin = "";
+						
+						for (Score inScore : student.score) {
+							if(inScore.subject_code.equals(code)) {
+								alreadyin = true;
+								break;
+							}
+							//alreadyin += inScore.toString();
+						}
+						
+						if (alreadyin) {
+							System.out.println(subject.toString() + " 성적이 이미 입력되어 있어 이전 메뉴로 돌아갑니다.");
+							break;
+						} else {
+							System.out.println("------------------------------------------------------------");
+							System.out.println(subject.toString() + " 과목의 성적을 입력해주세요.");
+							System.out.println("------------------------------------------------------------");
+							String getscore = scanner.nextLine();
+							
+							while(true) {
+								if (InformationVerify.isScore(getscore)) {
+									String[] subinfo = subject.toString().split(" ");
+									studentScoreInfo[0] = Integer.toString(student_id);
+									for (int i = 1; i < subinfo.length + 1; i++) {
+										studentScoreInfo[i] = subinfo[i - 1];
+									}
+									studentScoreInfo[5] = getscore;
+									studentScoreInfo[6] = "없음";
+									break;
+								}
+								else {
+									System.out.println("성적 형식이 맞지 않습니다. 성적을 다시 입력해주세요.(입력 가능 항목 : A, B, C, F)");
+									getscore = scanner.nextLine();
+								}
+							}
+							
+
+							for (int i = 0; i < studentScoreInfo.length - 1; i++) {
+								System.out.print(studentScoreInfo[i] + " ");
+							}
+
+							System.out.println();
+							System.out.println("------------------------------------------------------------");
+							System.out.println("해당 성적을 입력하시겠습니까? (y/n)");
+							System.out.println("------------------------------------------------------------");
+
+							String Q = scanner.nextLine();
+							if (Q.equals("y")) {
+								Score updatescore = new Score(studentScoreInfo);
+								student.score.add(updatescore);
+								System.out.println("성적이 정상적으로 입력되었습니다.");
+							} else {
+								System.out.println("성적입력이 취소되어 처음부터 재입력합니다.");
+								continue;
+							}
+
+						}
+
+					} else {
+						System.out.println("해당 과목코드는 존재하지 않습니다. 확인 후 다시 입력해주세요.");
+					}
+				} else {
+					System.out.println("해당 학생이 존재하지 않습니다.");
+				}
+
+				System.out.println("------------------------------------------------------------");
+				System.out.println("성적 등록을 계속 하시겠습니까?(y/n)");
+				System.out.println("------------------------------------------------------------");
+
+				restart = scanner.nextLine().equals("y") ? true : false;
+			} catch (NumberFormatException e) {
+				System.out.println("학번을 확인후 다시 입력해주세요.");
+			}
+		}
+
 	}
 
 	// 학생 성적 조회
 	public static void readScore(Scanner scanner) {
 		boolean restart = true;
-		
+
 		while (restart) {
 			try {
 				System.out.println("------------------------------------------------------------");
@@ -47,7 +150,7 @@ public class ScoreManagement {
 				System.out.println("------------------------------------------------------------");
 
 				int student_id = Integer.parseInt(scanner.nextLine());
-				
+
 				// 학번을 통해 해당 학생의 성적 조회
 				Student studentToRead = Student.getStudentFromID(student_id);
 
@@ -57,25 +160,24 @@ public class ScoreManagement {
 					if (!studentToRead.score.isEmpty()) {
 						System.out.println();
 						System.out.println("----------------------------------------------------------------------");
-						System.out.println(String.format("%-10s%-7s%-15s%-5s%-5s%-3s%-10s", "학번", "과목 코드", "과목명", "구분",
+						System.out.println(String.format("%-7s%-15s%-5s%-5s%-3s%-10s", "과목 코드", "과목명", "구분",
 								"담당교수", "성적", "변동 사유"));
 						System.out.println("----------------------------------------------------------------------");
 
 						for (Score grade : studentToRead.score) {
-							System.out.println(grade.toString());
+							System.out.println(grade.getScoreWithoutID());
 
 						}
 					} else {
 						// 학생의 성적이 존재하지 않는 경우
 						System.out.println("조회할 성적이 없습니다.");
 					}
-					
+
 				} else {
 					// 학생 리스트에 없는 학번을 입력한 경우
 					System.out.println("해당 학생이 존재하지 않습니다.");
 				}
-				
-				
+
 				System.out.println();
 				System.out.println("------------------------------------------------------------");
 				System.out.println("다른 학생을 조회하시겠습니까?(y/n)");
@@ -113,7 +215,7 @@ public class ScoreManagement {
 				} else {
 					// 입력한 학번으로 학생 객체를 찾음
 					changeScoreStudent = Student.getStudentFromID(Integer.parseInt(inputID));
-					
+
 					// 학생 객체가 없다면 다시 처음으로 돌아감
 					if (changeScoreStudent == null) {
 						System.out.println("------------------------------------------------------------");
@@ -123,8 +225,8 @@ public class ScoreManagement {
 					}
 
 					System.out.println("------------------------------------------------------------");
-					System.out.println(String.format("%-7s%-15s%-5s%-5s%-3s%-10s", "과목 코드", "과목명", "구분",
-							"담당교수", "성적", "변동 사유"));
+					System.out.println(
+							String.format("%-7s%-15s%-5s%-5s%-3s%-10s", "과목 코드", "과목명", "구분", "담당교수", "성적", "변동 사유"));
 					System.out.println("------------------------------------------------------------");
 
 					// 수정할 수 있는 성적들의 목록 출력
@@ -155,13 +257,13 @@ public class ScoreManagement {
 							System.out.println("------------------------------------------------------------");
 							continue;
 						}
-						
+
 						// 과목 코드를 찾은 경우 성적 변경 진행
 						System.out.println("----------------------------------------------------------------------");
 						System.out.println(String.format("%-10s%-7s%-15s%-5s%-5s%-3s%-10s", "학번", "과목 코드", "과목명", "구분",
 								"담당교수", "성적", "변동 사유"));
 						System.out.println(scoreUpdate.toString());
-						
+
 						System.out.println("성적을 변경 하시겠습니까?(y/n)");
 						System.out.println("----------------------------------------------------------------------");
 						input = scanner.nextLine();
@@ -170,8 +272,18 @@ public class ScoreManagement {
 							System.out.println("변경할 성적을 입력해주세요.");
 							System.out.println("------------------------------------------------------------");
 							input = scanner.nextLine();
-							scoreUpdate.score = input;
-
+							
+							while(true) {
+								if(InformationVerify.isScore(input)) {
+									scoreUpdate.score = input;
+									break;
+								}
+								else {
+									System.out.println("성적 형식이 맞지 않습니다. 성적을 다시 입력해주세요.(입력 가능 항목 : A, B, C, F)");
+									input = scanner.nextLine();
+								}
+							}
+							
 							System.out.println("------------------------------------------------------------");
 							System.out.println("변경사유를 입력해주세요");
 							System.out.println("------------------------------------------------------------");
@@ -180,14 +292,21 @@ public class ScoreManagement {
 							scoreUpdate.reason = input;
 							System.out
 									.println("----------------------------------------------------------------------");
-							System.out.println(String.format("%-17s%-10s%-10s%-9s%-5s%-5s%-5s", "학번", "과목코드", "수강과목",
-									"강사이름", "구분", "성적", "변경사유"));
+							System.out.println(String.format("%-10s%-7s%-15s%-5s%-5s%-3s%-10s", "학번", "과목 코드", "과목명",
+									"구분", "담당교수", "성적", "변동 사유"));
 							System.out.println(scoreUpdate.toString());
 							System.out.println("수정되었습니다.");
 							System.out
 									.println("----------------------------------------------------------------------");
 
+							System.out.println("------------------------------------------------------------");
+							System.out.println("성적을 추가로 수정하시겠습니까?(y/n)");
+							System.out.println("------------------------------------------------------------");
+
 							input = scanner.nextLine();
+							if (!input.equals("y")) {
+								break;
+							}
 
 						}
 					}

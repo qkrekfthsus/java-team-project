@@ -33,7 +33,7 @@ public class StudentManagement {
 		while (true) {
 			String id = scanner.nextLine();
 			// 유효성 검사 및 중복 체크
-			if (StudentVerify.isId(id) && StudentVerify.isOverlabID(id)) {
+			if (InformationVerify.isId(id) && InformationVerify.isOverlabID(id)) {
 				studentInfo[0] = id;
 				break;
 			} else {
@@ -55,7 +55,7 @@ public class StudentManagement {
 		while (true) {
 			String grade = scanner.nextLine();
 			// 유효성 검사
-			if (StudentVerify.isGrade(grade)) {
+			if (InformationVerify.isGrade(grade)) {
 				studentInfo[1] = grade;
 				break;
 			} else {
@@ -77,7 +77,7 @@ public class StudentManagement {
 		while (true) {
 			String name = scanner.nextLine();
 			// 유효성 검사
-			if (StudentVerify.isName(name)) {
+			if (InformationVerify.isName(name)) {
 				studentInfo[2] = name;
 				break;
 			} else {
@@ -99,7 +99,7 @@ public class StudentManagement {
 		while (true) {
 			String major = scanner.nextLine();
 			// 유효성 검사
-			if (StudentVerify.isMajor(major)) {
+			if (InformationVerify.isMajor(major)) {
 				studentInfo[3] = major;
 				break;
 			} else {
@@ -121,7 +121,7 @@ public class StudentManagement {
 		while (true) {
 			String tel = scanner.nextLine();
 			// 유효성 검사 및 중복 체크
-			if (StudentVerify.isMob(tel) && StudentVerify.isOverlabTel(tel)) {
+			if (InformationVerify.isMob(tel) && InformationVerify.isOverlabTel(tel)) {
 				studentInfo[4] = tel;
 				studentInfo[5] = "재학";
 				break;
@@ -404,7 +404,7 @@ public class StudentManagement {
 			case 1:
 				while (true) {
 					input = scanner.nextLine();
-					if (StudentVerify.isGrade(input)) {
+					if (InformationVerify.isGrade(input)) {
 						student.student_grade = Integer.parseInt(input);
 						Print(student);
 						break;
@@ -416,7 +416,7 @@ public class StudentManagement {
 			case 2:
 				while (true) {
 					input = scanner.nextLine();
-					if (StudentVerify.isName(input)) {
+					if (InformationVerify.isName(input)) {
 						student.student_name = input;
 						Print(student);
 						break;
@@ -429,7 +429,7 @@ public class StudentManagement {
 			case 3:
 				while (true) {
 					input = scanner.nextLine();
-					if (StudentVerify.isMajor(input)) {
+					if (InformationVerify.isMajor(input)) {
 						student.student_major = input;
 						Print(student);
 						break;
@@ -441,7 +441,7 @@ public class StudentManagement {
 			case 4:
 				while (true) {
 					input = scanner.nextLine();
-					if (StudentVerify.isMob(input)) {
+					if (InformationVerify.isMob(input)) {
 						student.student_tel = input;
 						Print(student);
 						break;
@@ -453,7 +453,7 @@ public class StudentManagement {
 			case 5:
 				while (true) {
 					input = scanner.nextLine();
-					if (StudentVerify.isState(input)) {
+					if (InformationVerify.isState(input)) {
 						student.student_state = input;
 						Print(student);
 						break;

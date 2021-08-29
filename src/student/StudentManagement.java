@@ -10,17 +10,31 @@ public class StudentManagement {
 
 	// 학생 등록 메소드
 	public static void registerStudent(Scanner scanner) {
-		System.out.println("*새로운 학생 정보를 등록합니다. (상태 기본값은 재학으로 등록됨)");
-		registerId(scanner);
-		registerGrade(scanner);
-		registerName(scanner);
-		registerMajor(scanner);
-		registerTel(scanner);
-		// 입력한 정보가 맞는지 확인
-		while (true) {
-			if (infoQ(scanner)) {
+		while(true) {
+			System.out.println();
+			System.out.println("*새로운 학생 정보를 등록합니다. (상태 기본값은 재학으로 등록됨)");
+			registerId(scanner);
+			registerGrade(scanner);
+			registerName(scanner);
+			registerMajor(scanner);
+			registerTel(scanner);
+			// 입력한 정보가 맞는지 확인
+			while (true) {
+				if (infoQ(scanner)) {
+					break;
+				}
+			}
+			
+			// 추가 작업할지 여부
+			System.out.println("------------------------------------------------------------");
+			System.out.println("학생 등록이 완료되었습니다. 계속 작업하시겠습니까? (y/n)");
+			System.out.println("------------------------------------------------------------");
+
+			if (!scanner.nextLine().equals("y")) {
+				System.out.println("학생 등록을 종료하고 메인 메뉴로 돌아갑니다.");
 				break;
 			}
+
 		}
 	}
 
@@ -46,8 +60,6 @@ public class StudentManagement {
 
 	// 학년 입력
 	public static void registerGrade(Scanner scanner) {
-		System.out.println();
-
 		System.out.println("------------------------------------------------------------");
 		System.out.println("등록할 학생의 학년을 입력해주세요. (숫자 1자리)");
 		System.out.println("------------------------------------------------------------");
@@ -59,8 +71,7 @@ public class StudentManagement {
 				studentInfo[1] = grade;
 				break;
 			} else {
-				System.out.println("학년을 확인 후 다시 입력해주세요. (숫자 1자리)");
-				continue;
+				System.out.println("학년을 확인 후 다시 입력해주세요. (1~4 사이의 숫자 1자리)");
 			}
 		}
 
@@ -68,8 +79,6 @@ public class StudentManagement {
 
 	// 이름 입력
 	public static void registerName(Scanner scanner) {
-		System.out.println();
-
 		System.out.println("------------------------------------------------------------");
 		System.out.println("등록할 학생의 이름을 입력해주세요.");
 		System.out.println("------------------------------------------------------------");
@@ -82,7 +91,6 @@ public class StudentManagement {
 				break;
 			} else {
 				System.out.println("이름을 확인 후 다시 입력해주세요.");
-				continue;
 			}
 		}
 
@@ -90,8 +98,6 @@ public class StudentManagement {
 
 	// 학과 입력
 	public static void registerMajor(Scanner scanner) {
-		System.out.println();
-
 		System.out.println("------------------------------------------------------------");
 		System.out.println("등록할 학생의 학과를 입력해주세요. (ex. xx학과)");
 		System.out.println("------------------------------------------------------------");
@@ -104,7 +110,6 @@ public class StudentManagement {
 				break;
 			} else {
 				System.out.println("학과를 확인 후 다시 입력해주세요. (ex. xx학과)");
-				continue;
 			}
 		}
 
@@ -112,8 +117,6 @@ public class StudentManagement {
 
 	// 전화 번호 입력
 	public static void registerTel(Scanner scanner) {
-		System.out.println();
-
 		System.out.println("------------------------------------------------------------");
 		System.out.println("등록할 학생의 전화번호를 입력해주세요. (ex. 010-xxxx-xxxx)");
 		System.out.println("------------------------------------------------------------");
@@ -127,7 +130,6 @@ public class StudentManagement {
 				break;
 			} else {
 				System.out.println("전화번호를 확인 후 다시 입력해주세요. (ex. 010-xxxx-xxxx)");
-				continue;
 			}
 		}
 
@@ -138,25 +140,18 @@ public class StudentManagement {
 
 		// 입력한 값들을 출력
 		Student student = new Student(studentInfo);
-		System.out.println();
 		System.out.println("------------------------------------------------------------");
 		System.out.println(student.toString());
 		System.out.println("------------------------------------------------------------");
 		System.out.println("등록하실 정보가 맞습니까? (y/n)");
 		
 		if (scanner.nextLine().equals("y")) {
-
 			// 학생 ArrayList에 추가
 			FileManager.studentArray.add(student);
-			
-			// 이후 작업여부 묻는 함수 호출
-			registerQ(scanner);
-			
 			return true;
 			
 		} else {
 			// 항목을 입력해서 잘못 입력된 값 수정
-			System.out.println();
 			System.out.println("------------------------------------------------------------");
 			System.out.println("재입력할 항목명을 입력해주세요.(학번, 학년, 이름, 학과, 전화번호)");
 			System.out.println("------------------------------------------------------------");
@@ -179,8 +174,6 @@ public class StudentManagement {
 
 	// 이후 작업 여부 묻는 함수
 	public static void registerQ(Scanner scanner) {
-		System.out.println();
-
 		System.out.println("------------------------------------------------------------");
 		System.out.println("학생 등록이 완료되었습니다. 계속 작업하시겠습니까? (y/n)");
 		System.out.println("------------------------------------------------------------");
@@ -200,7 +193,8 @@ public class StudentManagement {
 
 		boolean resetSearch = true;
 		while (resetSearch) {
-			System.out.println("* 학생 정보 검색");
+			System.out.println();
+			System.out.println("* 학생 정보를 검색합니다.");
 			System.out.println("----------------------------------------------------------------------");
 			System.out.println("검색할 학생에 대한 정보를 띄어쓰기로 구분해서 입력해주세요.(ex. 김철수 컴퓨터공학과 1)");
 			System.out.println("정보는 항목별로 하나씩만 입력가능합니다.(항목 : 학번, 학년, 이름, 학과, 전화번호, 학적상태)");
@@ -229,14 +223,12 @@ public class StudentManagement {
 			}
 			
 			// 검색 조건을 추가하지 않는다면 다시 검색할지 여부
-			System.out.println();
 			System.out.println("----------------------------------------------------------------------");
 			System.out.println("다시 검색하시겠습니까?(y/n)");
 			System.out.println("----------------------------------------------------------------------");
 			resetSearch = scanner.nextLine().equals("y") ? true : false;
 
 		}
-		System.out.println();
 		System.out.println("메인 화면으로 돌아갑니다.");
 	}
 
@@ -244,7 +236,6 @@ public class StudentManagement {
 	public static ArrayList<Student> getSearchResult(Scanner scanner, boolean isFirst, ArrayList<Student> result) {
 		// 처음 검색인지, 추가 검색인지 확인
 		if (!isFirst) {
-			System.out.println();
 			System.out.println("----------------------------------------------------------------------");
 			System.out.println("상세 검색할 내용을 입력해주세요.");
 			System.out.println("----------------------------------------------------------------------");
@@ -310,12 +301,17 @@ public class StudentManagement {
 		String[] studentInfoArray = new String[6];
 
 		while (true) {
+			System.out.println();
+			System.out.println("* 학생 정보를 수정합니다.");
 			System.out.println("----------------------------------------------------------------------");
-			System.out.println("인적사항을 변경할 학생의 학번을 입력해주세요.");
+			System.out.println("인적사항을 변경할 학생의 학번을 입력해주세요. (q : 이전 메뉴 돌아가기)");
 			System.out.println("----------------------------------------------------------------------");
 
 			input = scanner.nextLine();
-
+			if(input.equals("q")) {
+				System.out.println("메인 메뉴로 돌아갑니다.");
+				break;
+			}
 			try {
 				// 인적사항을 변경할 Student 객체
 				Student updateStudent = Student.getStudentFromID(Integer.parseInt(input));
@@ -341,10 +337,13 @@ public class StudentManagement {
 					if (input.equals("y")) {
 						while(true) {
 							System.out.println("----------------------------------------------------------------------");
-							System.out.println("변경할 항목을 입력해주세요. (항목 : 학번, 학년, 이름, 학과, 전화번호, 학적상태)");
+							System.out.println("변경할 항목을 입력해주세요. (q 입력 : 취소, 항목 : 학번, 학년, 이름, 학과, 전화번호, 학적상태)");
 							System.out.println("----------------------------------------------------------------------");
 							input = scanner.nextLine();
 							
+							if(input.equals("q")) {
+								break;
+							}
 							// 입력 받은 항목 String 을 항목 리스트의 index로 변환
 							int index = getListIndex(input, list);
 							
@@ -352,6 +351,7 @@ public class StudentManagement {
 							if(update(scanner, index, studentInfoArray, updateStudent)) {
 								break;
 							}
+
 						}
 					} else {
 						break;
@@ -371,7 +371,7 @@ public class StudentManagement {
 			if (input.equals("y")) {
 				continue;
 			} else {
-				System.out.println("학생 인적사항 수정을 마치고 메인화면으로 돌아갑니다.");
+				System.out.println("메인 메뉴로 돌아갑니다.");
 				break;
 			}
 
@@ -409,7 +409,7 @@ public class StudentManagement {
 						Print(student);
 						break;
 					} else {
-						System.out.println("학년을 확인 후 다시 입력해주세요. (숫자1자리)");
+						System.out.println("학년을 확인 후 다시 입력해주세요. (1~4 사이 숫자1자리)");
 					}
 				}
 				break;

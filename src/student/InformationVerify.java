@@ -12,7 +12,7 @@ public class InformationVerify {
 	}
 
 	public static boolean isGrade(String str) {
-		return Pattern.matches("^\\d{1}$", str);
+		return Pattern.matches("[1-4]{1}$", str);
 	}
 
 	public static boolean isName(String str) {

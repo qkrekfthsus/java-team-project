@@ -9,6 +9,8 @@ public class ScoreManagement {
 
 		while (true) {
 			try {
+				System.out.println();
+				System.out.println("* 성적을 관리합니다.");
 				System.out.println("------------------------------------------------------------");
 				System.out.println("원하는 기능을 선택해주세요.( 1~4 번호를 입력해주세요.)");
 				System.out.println("1.성적 입력  2.성적 조회  3.성적 수정   4.이전메뉴");
@@ -40,23 +42,35 @@ public class ScoreManagement {
 		String[] studentScoreInfo = new String[7];
 
 		boolean restart = true;
-		while (restart) {
+		while (true) {
 			try {
+				System.out.println();
+				System.out.println("* 새로운 학생 성적 정보를 등록합니다.");
 				System.out.println("------------------------------------------------------------");
-				System.out.println("성적을 입력할 학생의 학번을 입력해주세요.");
+				System.out.println("성적을 입력할 학생의 학번을 입력해주세요. (q : 이전 메뉴 돌아가기)");
 				System.out.println("------------------------------------------------------------");
 
-				int student_id = Integer.parseInt(scanner.nextLine());
+				String input = scanner.nextLine();
+				if(input.equals("q")) {
+					System.out.println("이전 메뉴로 돌아갑니다.");
+					break;
+				}
+	
+				int student_id = Integer.parseInt(input);
 				Student student = Student.getStudentFromID(student_id);
 				
 				// 입력된 학번의 학생이 존재하는 경우 
-				if (student != null) {
+				if (student != null && student.student_state.equals("재학")) {
 
 					System.out.println("------------------------------------------------------------");
-					System.out.println("성적을 입력할 과목 코드를 입력해주세요.");
+					System.out.println("성적을 입력할 과목 코드를 입력해주세요. (q : 이전 메뉴 돌아가기)");
 					System.out.println("------------------------------------------------------------");
 
 					String code = scanner.nextLine();
+					if(code.equals("q")){
+						System.out.println("이전 메뉴로 돌아갑니다.");
+						break;
+					}
 					Subject subject = Subject.getFromcode(code);
 					
 					// 입력된 과목코드가 과목 목록에 존재하는 경우
@@ -77,9 +91,15 @@ public class ScoreManagement {
 							break;
 						} else {
 							System.out.println("------------------------------------------------------------");
-							System.out.println(subject.toString() + " 과목의 성적을 입력해주세요.");
+							System.out.println(subject.toString() + " 과목의 성적을 입력해주세요. (q : 이전 메뉴 돌아가기)");
 							System.out.println("------------------------------------------------------------");
+							
 							String getscore = scanner.nextLine();
+							
+							if(getscore.equals("q")){
+								System.out.println("이전 메뉴로 돌아갑니다.");
+								break;
+							}
 							
 							while(true) {
 								if (InformationVerify.isScore(getscore)) {
@@ -93,12 +113,14 @@ public class ScoreManagement {
 									break;
 								}
 								else {
-									System.out.println("성적 형식이 맞지 않습니다. 성적을 다시 입력해주세요.(입력 가능 항목 : A, B, C, F)");
+									System.out.println("------------------------------------------------------------");
+									System.out.println("성적 형식이 맞지 않습니다. 성적을 다시 입력해주세요.");
+									System.out.println("입력 가능 항목 : A, B, C, F");
+									System.out.println("------------------------------------------------------------");
 									getscore = scanner.nextLine();
 								}
 							}
 							
-
 							for (int i = 0; i < studentScoreInfo.length - 1; i++) {
 								System.out.print(studentScoreInfo[i] + " ");
 							}
@@ -124,7 +146,7 @@ public class ScoreManagement {
 						System.out.println("해당 과목코드는 존재하지 않습니다. 확인 후 다시 입력해주세요.");
 					}
 				} else {
-					System.out.println("해당 학생이 존재하지 않습니다.");
+					System.out.println("해당 학생이 존재하지 않거나 재학 중인 상태가 아닙니다.");
 				}
 
 				System.out.println("------------------------------------------------------------");
@@ -132,6 +154,10 @@ public class ScoreManagement {
 				System.out.println("------------------------------------------------------------");
 
 				restart = scanner.nextLine().equals("y") ? true : false;
+				if(!restart) {
+					System.out.println("이전 메뉴로 돌아갑니다.");
+					break;
+				}
 			} catch (NumberFormatException e) {
 				System.out.println("학번을 확인후 다시 입력해주세요.");
 			}
@@ -145,6 +171,8 @@ public class ScoreManagement {
 
 		while (restart) {
 			try {
+				System.out.println();
+				System.out.println("* 학생 성적 정보를 조회합니다.");
 				System.out.println("------------------------------------------------------------");
 				System.out.println("성적을 조회할 학생의 학번을 입력해주세요.");
 				System.out.println("------------------------------------------------------------");
@@ -186,7 +214,7 @@ public class ScoreManagement {
 				if (scanner.nextLine().equals("y")) {
 					restart = true;
 				} else {
-					System.out.println("성적 조회를 마치고 성적 관리 메뉴로 돌아갑니다.");
+					System.out.println("이전 메뉴로 돌아갑니다.");
 					restart = false;
 				}
 
@@ -201,16 +229,20 @@ public class ScoreManagement {
 	// 학생 성적 정보 수정
 	public static void changeScore(Scanner scanner) {
 		Student changeScoreStudent;
-		String input;
+		String input, score, reason;
+
 
 		while (true) {
 			try {
+				System.out.println();
+				System.out.println("* 학생 성적 정보를 수정합니다.");
 				System.out.println("------------------------------------------------------------");
-				System.out.println("성적을 수정할 학생의 학번을 입력해주세요.");
+				System.out.println("성적을 수정할 학생의 학번을 입력해주세요. (q : 이전 메뉴 돌아가기)");
 				System.out.println("------------------------------------------------------------");
 				String inputID = scanner.nextLine();
 
-				if (inputID.equals("n")) {
+				if (inputID.equals("q")) {
+					System.out.println("이전 메뉴로 돌아갑니다.");
 					break;
 				} else {
 					// 입력한 학번으로 학생 객체를 찾음
@@ -235,10 +267,11 @@ public class ScoreManagement {
 					}
 
 					System.out.println("------------------------------------------------------------");
-					System.out.println("성적을 수정할 과목코드를 입력해주세요. (처음으로 돌아가기(n))");
+					System.out.println("성적을 수정할 과목코드를 입력해주세요. (q : 이전 메뉴 돌아가기)");
 					System.out.println("------------------------------------------------------------");
 					String inuputCode = scanner.nextLine();
-					if (inuputCode.equals("n")) {
+					if (inuputCode.equals("q")) {
+						System.out.println("이전 메뉴로 돌아갑니다.");
 						break;
 					} else {
 						// 찾은 학생 객체의 성적 ArrayList에서 입력한 과목 코드가 있는 성적 객체를 찾음
@@ -263,48 +296,65 @@ public class ScoreManagement {
 						System.out.println(String.format("%-10s%-7s%-15s%-5s%-5s%-3s%-10s", "학번", "과목 코드", "과목명", "구분",
 								"담당교수", "성적", "변동 사유"));
 						System.out.println(scoreUpdate.toString());
-
-						System.out.println("성적을 변경 하시겠습니까?(y/n)");
 						System.out.println("----------------------------------------------------------------------");
+						System.out.println("성적을 변경 하시겠습니까?(y/n)");
 						input = scanner.nextLine();
+						
 						if (input.equals("y")) {
 							System.out.println("------------------------------------------------------------");
 							System.out.println("변경할 성적을 입력해주세요.");
 							System.out.println("------------------------------------------------------------");
 							input = scanner.nextLine();
-							
+									
 							while(true) {
 								if(InformationVerify.isScore(input)) {
-									scoreUpdate.score = input;
+									score = input;
 									break;
 								}
 								else {
 									System.out.println("성적 형식이 맞지 않습니다. 성적을 다시 입력해주세요.(입력 가능 항목 : A, B, C, F)");
-									input = scanner.nextLine();
+;									input = scanner.nextLine();
 								}
 							}
+
 							
 							System.out.println("------------------------------------------------------------");
-							System.out.println("변경사유를 입력해주세요");
+							System.out.println("변경사유를 입력해주세요.");
 							System.out.println("------------------------------------------------------------");
 
 							input = scanner.nextLine();
-							scoreUpdate.reason = input;
+							
+							reason = input;
 							System.out
 									.println("----------------------------------------------------------------------");
 							System.out.println(String.format("%-10s%-7s%-15s%-5s%-5s%-3s%-10s", "학번", "과목 코드", "과목명",
 									"구분", "담당교수", "성적", "변동 사유"));
 							System.out.println(scoreUpdate.toString());
-							System.out.println("수정되었습니다.");
 							System.out
 									.println("----------------------------------------------------------------------");
+							
+							System.out.println("성적을 다음과 같이 변경하시겠습니까?(y/n)");
+							
+							input = scanner.nextLine();
+							
+							if(input.equals("y")) {
+								scoreUpdate.score = score;
+								scoreUpdate.reason = reason;
+								System.out.println("성적이 변경되었습니다.");
+							}							
+							else {
+								System.out.println("성적이 변경되지 않았습니다.");
+							}
+
+
 
 							System.out.println("------------------------------------------------------------");
-							System.out.println("성적을 추가로 수정하시겠습니까?(y/n)");
+							System.out.println("성적을 추가로 변경하시겠습니까?(y/n)");
 							System.out.println("------------------------------------------------------------");
 
 							input = scanner.nextLine();
 							if (!input.equals("y")) {
+								System.out.println("이전 메뉴로 돌아갑니다.");
 								break;
 							}
 

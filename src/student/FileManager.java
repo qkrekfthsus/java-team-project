@@ -43,6 +43,7 @@ public class FileManager {
 					subjectArray.add(subject);
 				}
 				else {
+					// 과목 리스트 추가
 					boolean subjectInclude = false;
 					for(int i = 0; i < subjectArray.size(); i++) {
 						subjectInclude = Subject.compare(subjectArray.get(i), subject);

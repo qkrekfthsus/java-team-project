@@ -19,7 +19,7 @@ public class StudentManagement {
 			case -1:
 				System.out.println();
 				System.out.println("*새로운 학생 정보를 등록합니다. (상태 기본값은 재학으로 등록됨)");
-				System.out.println("정보 입력 도중 q 입력으로 이전 메뉴로 돌아갈 수 있습니다.");
+				System.out.println("정보 입력 도중 q 입력으로 메인 메뉴로 돌아갈 수 있습니다.");
 				
 			case 0:
 				System.out.println("------------------------------------------------------------");
@@ -156,6 +156,7 @@ public class StudentManagement {
 					System.out.println("------------------------------------------------------------");
 					
 					while(true) {
+						// 항목 리스트의 인덱스를 설정해서 다음 반복 때 case문 실행
 						String info = scanner.nextLine();
 						index = Arrays.asList(list).indexOf(info);
 						if(index != -1 && index != 5) {
